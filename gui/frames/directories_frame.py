@@ -16,16 +16,16 @@ class DirectorySelectorFrame(tk.Frame):
 
     def _create_widgets(self):
         self._keybind_label = tk.Label(self, text=self._char+':')
-        self._keybind_label .pack(side='left')
+        self._keybind_label.pack(side='left')
 
         self._entry_text = tk.StringVar()
         self._entry_text.set('No Directory Selected')
 
         self._directory_entry = tk.Entry(self, textvariable=self._entry_text, state='disabled')
-        self._directory_entry .pack(side='left')
+        self._directory_entry.pack(side='left')
 
         self._select_button = tk.Button(self, text='Select Directory', command=self._on_select)
-        self._select_button .pack()
+        self._select_button.pack()
 
     def _on_select(self):
         if dir_path := filedialog.askdirectory():
