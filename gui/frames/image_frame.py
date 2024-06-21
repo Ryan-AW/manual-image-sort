@@ -52,7 +52,6 @@ class ImageFrame(tk.Frame):
         self._image_label.config(image=self._image)
 
     def _on_resize(self, event):
-        print('resizing')
         self._width = event.width-2
         self._height = event.height-2
         self._scale_image()
