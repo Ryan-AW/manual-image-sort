@@ -21,7 +21,7 @@ class DirectorySelectorFrame(tk.Frame):
         self._entry_text = tk.StringVar()
         self._entry_text.set('No Directory Selected')
 
-        self._directory_entry = tk.Entry(self, textvariable=self._entry_text, state='disabled')
+        self._directory_entry = tk.Entry(self, textvariable=self._entry_text, state='disabled', width=40)
         self._directory_entry.pack(side='left')
 
         self._select_button = tk.Button(self, text='Select Directory', command=self._on_select)
@@ -54,7 +54,7 @@ class DirectoriesFrame(tk.Frame):
     def _create_widgets(self):
         self._selectors = [DirectorySelectorFrame(self, str(i)) for i in range(10)]
         for selector in self._selectors:
-            selector.pack()
+            selector.pack(expand=True)
 
     @property
     def directories(self):
