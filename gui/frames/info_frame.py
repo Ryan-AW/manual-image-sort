@@ -64,7 +64,7 @@ class MutableInfoFrame(tk.Frame):
         self._key_label.pack(side='left')
 
         self._value_entry = tk.Entry(self, textvariable=self._value, state='readonly')
-        self._value_entry.pack(side='left')
+        self._value_entry.pack(side='left', fill=tk.X, expand=True)
 
         self._edit_button = tk.Button(self, command=self._on_edit)
         self._edit_button.pack()
@@ -123,5 +123,6 @@ class InfoFrame(tk.Frame):
 
         self._mutable_frames = [MutableInfoFrame(self, key, value, max_length) for key, value in mutable_info.items()]
         self._read_only_frames = [ReadOnlyInfoFrame(self, key, value, max_key_len, max_value_len) for key, value in immutable_info.items()]
+
         for frame in self._mutable_frames+self._read_only_frames:
-            frame.pack()
+            frame.pack(fill=tk.X, expand=True)

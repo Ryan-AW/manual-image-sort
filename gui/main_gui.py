@@ -15,7 +15,7 @@ class MainGui(tk.Frame):
         self._left_frame.pack(fill=tk.BOTH, expand=True, side='left')
 
         self.info_frame = InfoFrame(self._left_frame)
-        self.info_frame.pack()
+        self.info_frame.pack(fill=tk.BOTH, expand=True)
 
         self.directory_selector = DirectoriesFrame(self._left_frame)
         self.directory_selector.pack(fill=tk.Y, expand=True)
