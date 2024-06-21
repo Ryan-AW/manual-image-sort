@@ -40,20 +40,20 @@ class ImageFrame(tk.Frame):
             new_width = int(self._height * aspect_ratio)
             new_height = self._height
 
-        self._raw_image = self._raw_image.resize((new_width, new_height), Image.ANTIALIAS)
+        self._image = self._raw_image.resize((new_width, new_height), Image.ANTIALIAS)
 
         background = Image.new('RGBA', (self._width, self._height), (0, 0, 0, 255))
 
         x = (self._width - new_width) // 2
         y = (self._height - new_height) // 2
-        background.paste(self._raw_image, (x, y), self._raw_image)
+        background.paste(self._image, (x, y), self._image)
 
         self._image = ImageTk.PhotoImage(background)
         self._image_label.config(image=self._image)
 
     def _on_resize(self, event):
         print('resizing')
-        self._width = event.width
-        self._height = event.height
+        self._width = event.width-2
+        self._height = event.height-2
         self._scale_image()
 
