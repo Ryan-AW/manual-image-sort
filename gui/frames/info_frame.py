@@ -63,7 +63,7 @@ class MutableInfoFrame(tk.Frame):
         self._value_entry = tk.Entry(self, textvariable=self._value, state='readonly')
         self._value_entry.pack(side='left')
 
-        self._edit_button = tk.Button(self, text='Select Directory', command=self._on_edit)
+        self._edit_button = tk.Button(self, command=self._on_edit)
         self._edit_button.pack()
 
     def _on_edit(self):
