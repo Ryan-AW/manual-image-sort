@@ -2,12 +2,12 @@
 import configparser
 import os
 
-class ThemeManager:
+class ConfigManager:
     ''' manage themes from config file '''
     _instance = None
     _theme_settings = None
 
-    CONFIG_PATH = 'themes/theme.conf'
+    CONFIG_PATH = 'config/config.conf'
 
     DEFAULT_CONFIG = {
         'THEME': {
@@ -27,7 +27,7 @@ class ThemeManager:
 
     def __new__(cls):
         if cls._instance is None:
-            cls._instance = super(ThemeManager, cls).__new__(cls)
+            cls._instance = super(ConfigManager, cls).__new__(cls)
             cls._instance.load_config()
         return cls._instance
 

@@ -1,10 +1,10 @@
 import tkinter as tk
 from gui.main_gui import MainGui
-from themes.theme_manager import ThemeManager
+from config.config_manager import ConfigManager
 
 
 def main():
-    ThemeManager()
+    ConfigManager()
     root = tk.Tk()
     root.title("Manual Image Sort")
     app = MainGui(root)

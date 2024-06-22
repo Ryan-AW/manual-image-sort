@@ -1,10 +1,10 @@
 ''' implements a tkinter frame with multiple directory selectors '''
 import tkinter as tk
 from tkinter import filedialog
-from themes.theme_manager import ThemeManager
+from config.config_manager import ConfigManager
 
 
-THEMES = ThemeManager()
+CONFIG = ConfigManager()
 
 
 class DirectoryBox(tk.Entry):
@@ -12,10 +12,10 @@ class DirectoryBox(tk.Entry):
     def __init__(self, *args, **kwargs):
         self._is_selected = False
         kwargs['state'] = 'disabled'
-        kwargs['disabledbackground'] = THEMES.get('inactive_directory_background')
-        kwargs['disabledforeground'] = THEMES.get('inactive_directory_text')
-        kwargs['readonlybackground'] = THEMES.get('active_directory_background')
-        kwargs['foreground'] = THEMES.get('active_directory_text')
+        kwargs['disabledbackground'] = CONFIG.get('inactive_directory_background')
+        kwargs['disabledforeground'] = CONFIG.get('inactive_directory_text')
+        kwargs['readonlybackground'] = CONFIG.get('active_directory_background')
+        kwargs['foreground'] = CONFIG.get('active_directory_text')
         super().__init__(*args, **kwargs)
 
     @property
@@ -27,11 +27,11 @@ class DirectoryBox(tk.Entry):
         if super().__getitem__('state') == 'readonly':
             self._is_selected = bool(value)
             if self._is_selected:
-                super().config(readonlybackground=THEMES.get('selected_directory_background'))
-                super().config(foreground=THEMES.get('selected_directory_text'))
+                super().config(readonlybackground=CONFIG.get('selected_directory_background'))
+                super().config(foreground=CONFIG.get('selected_directory_text'))
             else:
-                super().config(readonlybackground=THEMES.get('active_directory_background'))
-                super().config(foreground=THEMES.get('active_directory_text'))
+                super().config(readonlybackground=CONFIG.get('active_directory_background'))
+                super().config(foreground=CONFIG.get('active_directory_text'))
         else:
             self.flash_error()
 
@@ -40,11 +40,11 @@ class DirectoryBox(tk.Entry):
 
     def flash_error(self, _unflash=False):
         if _unflash:
-            self.config(disabledbackground=THEMES.get('inactive_directory_background'))
-            self.config(disabledforeground=THEMES.get('inactive_directory_text'))
+            self.config(disabledbackground=CONFIG.get('inactive_directory_background'))
+            self.config(disabledforeground=CONFIG.get('inactive_directory_text'))
         else:
-            self.config(disabledbackground=THEMES.get('error_directory_background'))
-            self.config(disabledforeground=THEMES.get('error_directory_text'))
+            self.config(disabledbackground=CONFIG.get('error_directory_background'))
+            self.config(disabledforeground=CONFIG.get('error_directory_text'))
             self.after(100, lambda: self.flash_error(_unflash=True))
 
 

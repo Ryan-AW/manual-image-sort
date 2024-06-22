@@ -1,10 +1,10 @@
 ''' implements a tkinter frame for displaying an image '''
 import tkinter as tk
 from PIL import Image, ImageTk
-from themes.theme_manager import ThemeManager
+from config.config_manager import ConfigManager
 
 
-THEMES = ThemeManager()
+CONFIG = ConfigManager()
 
 
 class ImageFrame(tk.Frame):
@@ -27,10 +27,10 @@ class ImageFrame(tk.Frame):
         self.bind("<Configure>", self._on_resize)
 
     def _create_widgets(self):
-        self.config(bg=THEMES.get('image_frame'))
+        self.config(bg=CONFIG.get('image_frame'))
 
         self._image_label = tk.Label(self, image=self._image)
-        self._image_label.config(bg=THEMES.get('image_border'))
+        self._image_label.config(bg=CONFIG.get('image_border'))
         self._image_label.pack()
 
     def load_image(self, file_path):
@@ -49,7 +49,7 @@ class ImageFrame(tk.Frame):
 
         self._image = self._raw_image.resize((new_width, new_height), Image.ANTIALIAS)
 
-        background = Image.new('RGBA', (self._width, self._height), THEMES.get('image_border'))
+        background = Image.new('RGBA', (self._width, self._height), CONFIG.get('image_border'))
 
         x = (self._width - new_width) // 2
         y = (self._height - new_height) // 2
