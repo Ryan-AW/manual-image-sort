@@ -11,7 +11,11 @@ class ThemeManager:
 
     DEFAULT_CONFIG = {
         'THEME': {
-            'image_frame':  '#111111',
+            'inactive_directory_background': '#100006',
+            'inactive_directory_text': '#CDCD00',
+            'active_directory_background': '#100006',
+            'active_directory_text': '#00CD00',
+            'image_frame': '#111111',
             'image_border': '#333333'
         }
     }
@@ -25,11 +29,14 @@ class ThemeManager:
 
     def load_config(self):
         ''' load config file '''
+        config = configparser.ConfigParser()
+
         if not os.path.exists(self.CONFIG_PATH) or not self._is_valid():
             self.regenerate_config()
+            config.read_dict(self.DEFAULT_CONFIG)
+        else:
+            config.read(self.CONFIG_PATH)
 
-        config = configparser.ConfigParser()
-        config.read(self.CONFIG_PATH)
         self._theme_settings = config['THEME']
 
     def _is_valid(self):
