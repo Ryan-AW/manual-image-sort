@@ -23,11 +23,11 @@ class MainGui(tk.Frame):
         self.image_frame = ImageFrame(self)
         self.image_frame.grid(row=0, column=1, sticky='nsew')
 
-        self.master.rowconfigure(0, weight=1)
-        self.master.columnconfigure(0, weight=1)
-        self.master.columnconfigure(1, weight=1)
+
+
         self.rowconfigure(0, weight=1)
         self.columnconfigure(0, weight=1)
+        self.columnconfigure(1, weight=3)
+
         self._left_frame.rowconfigure(0, weight=1)
         self._left_frame.rowconfigure(1, weight=1)
-        self._left_frame.columnconfigure(0, weight=1)
