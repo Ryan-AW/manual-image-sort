@@ -10,7 +10,7 @@ class ConfigManager:
     CONFIG_PATH = 'config/config.conf'
 
     DEFAULT_CONFIG = {
-        'directory_widget': {
+        'directory_entry': {
             'inactive_directory_background': '#100006',
             'inactive_directory_text': '#CDCD00',
             'active_directory_background': '#100006',
@@ -19,6 +19,9 @@ class ConfigManager:
             'selected_directory_text': '#100006',
             'error_directory_background': '#CD0000',
             'error_directory_text': '#EEEEEE'
+        },
+        'directory_widget': {
+            'background': '#CD00CD'
         },
         'image_widget': {
             'image_frame': '#111111',
@@ -36,24 +39,34 @@ class ConfigManager:
     def load_config(self):
         ''' load config file '''
         config = configparser.ConfigParser()
-
-        if not os.path.exists(self.CONFIG_PATH) or not self._is_valid():
+        try:
+            config.read(self.CONFIG_PATH)
+            config_filtered = {k: v for k, v in config.items() if k!='DEFAULT'}
+            if not self._has_same_keys(config_filtered, self.DEFAULT_CONFIG):
+                raise ValueError('The Config File Does Not Match The Template')
+        except (configparser.Error, ValueError):
             self.regenerate_config()
             config.read_dict(self.DEFAULT_CONFIG)
-        else:
-            config.read(self.CONFIG_PATH)
 
         self._config = config
 
-    def _is_valid(self):
-        try:
-            config = configparser.ConfigParser()
-            config.read(self.CONFIG_PATH)
+    def _has_same_keys(self, dict1:configparser.ConfigParser, dict2: dict):
+        if isinstance(dict1, configparser.SectionProxy|configparser.ConfigParser):
+            dict1 = dict(dict1)
 
-            return set(self.DEFAULT_CONFIG).issubset(config.keys())
+        if isinstance(dict1, dict):
+            if not isinstance(dict2, dict):
+                return False
+            else:
+                if set(dict1) <= set(dict2) and set(dict2) <= set(dict1):
+                    for key, value in dict1.items():
+                        if not self._has_same_keys(value, dict2[key]):
+                            return False
+                    return True
+        elif not isinstance(dict2, dict):
+            return True
+        return False
 
-        except configparser.Error:
-            return False
 
     def regenerate_config(self):
         ''' rewrite config file if it is missing or invalid '''

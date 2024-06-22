@@ -9,7 +9,7 @@ CONFIG = ConfigManager()
 
 class DirectoryBox(tk.Entry):
     ''' wrap tkinter entry to make a text box for directory paths '''
-    _config = CONFIG['directory_widget']
+    _config = CONFIG['directory_entry']
 
     def __init__(self, *args, **kwargs):
         self._is_selected = False
@@ -54,6 +54,8 @@ class DirectoryBox(tk.Entry):
 
 class DirectorySelectorFrame(tk.Frame):
     ''' tkinter frame for selecting a directory '''
+    _config = CONFIG['directory_widget']
+
     def __init__(self, master, char):
         super().__init__(master)
         self.master = master
@@ -64,6 +66,7 @@ class DirectorySelectorFrame(tk.Frame):
         self._create_widgets()
 
     def _create_widgets(self):
+        self.config(background=self._config['background'])
         self._keybind_label = tk.Label(self, text=self._char+':')
         self._keybind_label.pack(side='left')
 
