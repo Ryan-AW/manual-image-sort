@@ -32,10 +32,20 @@ class DirectoryBox(tk.Entry):
             else:
                 super().config(readonlybackground=THEMES.get('active_directory_background'))
                 super().config(foreground=THEMES.get('active_directory_text'))
-
+        else:
+            self.flash_error()
 
     def toggle(self):
         self.is_selected = not self.is_selected
+
+    def flash_error(self, _unflash=False):
+        if _unflash:
+            self.config(disabledbackground=THEMES.get('inactive_directory_background'))
+            self.config(disabledforeground=THEMES.get('inactive_directory_text'))
+        else:
+            self.config(disabledbackground=THEMES.get('error_directory_background'))
+            self.config(disabledforeground=THEMES.get('error_directory_text'))
+            self.after(100, lambda: self.flash_error(_unflash=True))
 
 
 
@@ -96,6 +106,3 @@ class DirectoriesFrame(tk.Frame):
     @property
     def directories(self):
         return [selector.directory for selector in self._selectors]
-
-for theme in THEMES:
-    print(theme, '-', THEMES.get(theme))
