@@ -1,9 +1,9 @@
-''' loads themes config file and provides an interface to its values '''
+''' load config file and provides an interface to its values '''
 import configparser
 import os
 
 class ConfigManager:
-    ''' manage themes from config file '''
+    ''' manage config file '''
     _instance = None
     _config = None
 
