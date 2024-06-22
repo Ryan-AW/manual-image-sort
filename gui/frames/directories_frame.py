@@ -10,12 +10,34 @@ THEMES = ThemeManager()
 class DirectoryBox(tk.Entry):
     ''' wrap tkinter entry to make a text box for directory paths '''
     def __init__(self, *args, **kwargs):
+        self._is_selected = False
         kwargs['state'] = 'disabled'
         kwargs['disabledbackground'] = THEMES.get('inactive_directory_background')
         kwargs['disabledforeground'] = THEMES.get('inactive_directory_text')
         kwargs['readonlybackground'] = THEMES.get('active_directory_background')
         kwargs['foreground'] = THEMES.get('active_directory_text')
         super().__init__(*args, **kwargs)
+
+    @property
+    def is_selected(self):
+        return self._is_selected
+
+    @is_selected.setter
+    def is_selected(self, value: bool):
+        if super().__getitem__('state') == 'readonly':
+            self._is_selected = bool(value)
+            if self._is_selected:
+                super().config(readonlybackground=THEMES.get('selected_directory_background'))
+                super().config(foreground=THEMES.get('selected_directory_text'))
+            else:
+                super().config(readonlybackground=THEMES.get('active_directory_background'))
+                super().config(foreground=THEMES.get('active_directory_text'))
+
+
+    def toggle(self):
+        self.is_selected = not self.is_selected
+
+
 
 
 class DirectorySelectorFrame(tk.Frame):

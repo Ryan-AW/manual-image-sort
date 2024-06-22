@@ -15,6 +15,8 @@ class ThemeManager:
             'inactive_directory_text': '#CDCD00',
             'active_directory_background': '#100006',
             'active_directory_text': '#00CD00',
+            'selected_directory_background': '#00CD00',
+            'selected_directory_text': '#100006',
             'image_frame': '#111111',
             'image_border': '#333333'
         }
