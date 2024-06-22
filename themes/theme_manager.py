@@ -11,9 +11,8 @@ class ThemeManager:
 
     DEFAULT_CONFIG = {
         'THEME': {
-            'background_color': '#f0f0f0',
-            'text_color': '#333333',
-            'button_color': '#007bff'
+            'image_frame':  '#111111',
+            'image_border': '#333333'
         }
     }
 
