@@ -9,13 +9,15 @@ CONFIG = ConfigManager()
 
 class DirectoryBox(tk.Entry):
     ''' wrap tkinter entry to make a text box for directory paths '''
+    _config = CONFIG['directory_widget']
+
     def __init__(self, *args, **kwargs):
         self._is_selected = False
         kwargs['state'] = 'disabled'
-        kwargs['disabledbackground'] = CONFIG.get('inactive_directory_background')
-        kwargs['disabledforeground'] = CONFIG.get('inactive_directory_text')
-        kwargs['readonlybackground'] = CONFIG.get('active_directory_background')
-        kwargs['foreground'] = CONFIG.get('active_directory_text')
+        kwargs['disabledbackground'] = self._config['inactive_directory_background']
+        kwargs['disabledforeground'] = self._config['inactive_directory_text']
+        kwargs['readonlybackground'] = self._config['active_directory_background']
+        kwargs['foreground'] = self._config['active_directory_text']
         super().__init__(*args, **kwargs)
 
     @property
@@ -27,11 +29,11 @@ class DirectoryBox(tk.Entry):
         if super().__getitem__('state') == 'readonly':
             self._is_selected = bool(value)
             if self._is_selected:
-                super().config(readonlybackground=CONFIG.get('selected_directory_background'))
-                super().config(foreground=CONFIG.get('selected_directory_text'))
+                super().config(readonlybackground=self._config['selected_directory_background'])
+                super().config(foreground=self._config['selected_directory_text'])
             else:
-                super().config(readonlybackground=CONFIG.get('active_directory_background'))
-                super().config(foreground=CONFIG.get('active_directory_text'))
+                super().config(readonlybackground=self._config['active_directory_background'])
+                super().config(foreground=self._config['active_directory_text'])
         else:
             self.flash_error()
 
@@ -40,11 +42,11 @@ class DirectoryBox(tk.Entry):
 
     def flash_error(self, _unflash=False):
         if _unflash:
-            self.config(disabledbackground=CONFIG.get('inactive_directory_background'))
-            self.config(disabledforeground=CONFIG.get('inactive_directory_text'))
+            self.config(disabledbackground=self._config['inactive_directory_background'])
+            self.config(disabledforeground=self._config['inactive_directory_text'])
         else:
-            self.config(disabledbackground=CONFIG.get('error_directory_background'))
-            self.config(disabledforeground=CONFIG.get('error_directory_text'))
+            self.config(disabledbackground=self._config['error_directory_background'])
+            self.config(disabledforeground=self._config['error_directory_text'])
             self.after(100, lambda: self.flash_error(_unflash=True))
 
 

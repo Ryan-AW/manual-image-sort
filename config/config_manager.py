@@ -5,12 +5,12 @@ import os
 class ConfigManager:
     ''' manage themes from config file '''
     _instance = None
-    _theme_settings = None
+    _config = None
 
     CONFIG_PATH = 'config/config.conf'
 
     DEFAULT_CONFIG = {
-        'THEME': {
+        'directory_widget': {
             'inactive_directory_background': '#100006',
             'inactive_directory_text': '#CDCD00',
             'active_directory_background': '#100006',
@@ -18,7 +18,9 @@ class ConfigManager:
             'selected_directory_background': '#00CD00',
             'selected_directory_text': '#100006',
             'error_directory_background': '#CD0000',
-            'error_directory_text': '#EEEEEE',
+            'error_directory_text': '#EEEEEE'
+        },
+        'image_widget': {
             'image_frame': '#111111',
             'image_border': '#333333'
         }
@@ -41,15 +43,14 @@ class ConfigManager:
         else:
             config.read(self.CONFIG_PATH)
 
-        self._theme_settings = config['THEME']
+        self._config = config
 
     def _is_valid(self):
         try:
             config = configparser.ConfigParser()
             config.read(self.CONFIG_PATH)
 
-            return 'THEME' in config and \
-                set(self.DEFAULT_CONFIG['THEME']).issubset(config['THEME'].keys())
+            return set(self.DEFAULT_CONFIG).issubset(config.keys())
 
         except configparser.Error:
             return False
@@ -61,9 +62,8 @@ class ConfigManager:
         with open(self.CONFIG_PATH, 'w', encoding='utf-8') as conf_file:
             config.write(conf_file)
 
-    def get(self, key):
-        ''' return the theme's value '''
-        return self._theme_settings.get(key)
+    def __getitem__(self, key):
+        return self._config[key]
 
     def __iter__(self):
-        return iter(self._theme_settings.keys())
+        return iter(self._config.keys())
