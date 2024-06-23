@@ -67,7 +67,12 @@ class DirectorySelectorFrame(tk.Frame):
 
     def _create_widgets(self):
         self.config(background=self._config['background'])
-        self._keybind_label = tk.Label(self, text=self._char+':')
+        self._keybind_label = tk.Label(
+                self,
+                text=self._char+':',
+                background=self._config['label_background'],
+                foreground=self._config['label_text']
+            )
         self._keybind_label.pack(side='left')
 
         self._entry_text = tk.StringVar()
@@ -97,6 +102,8 @@ class DirectorySelectorFrame(tk.Frame):
 
 class DirectoriesFrame(tk.Frame):
     ''' tkinter frame with multiple directory selectors '''
+    _config = CONFIG['directories_frame']
+
     def __init__(self, master):
         super().__init__(master)
         self.master = master
@@ -104,6 +111,7 @@ class DirectoriesFrame(tk.Frame):
         self._create_widgets()
 
     def _create_widgets(self):
+        self.config(background=self._config['background'])
         self._selectors = [DirectorySelectorFrame(self, str(i)) for i in range(10)]
         for selector in self._selectors:
             selector.pack(fill=tk.X, expand=True)

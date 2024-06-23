@@ -21,7 +21,12 @@ class ConfigManager:
             'error_directory_text': '#EEEEEE'
         },
         'directory_widget': {
-            'background': '#CD00CD'
+            'background': '#00CD00',
+            'label_background': '#00CD00',
+            'label_text': '#100006'
+        },
+        'directories_frame': {
+            'background': '#00CD00'
         },
         'image_widget': {
             'image_frame': '#111111',
