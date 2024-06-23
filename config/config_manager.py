@@ -20,6 +20,13 @@ class ConfigManager:
             'error_directory_background': '#CD0000',
             'error_directory_text': '#EEEEEE'
         },
+        'select_button': {
+            'legend': 'Select Directory',
+            'background': '#CDCD00',
+            'text_color': '#100006',
+            'hover_background': '#AFAF06',
+            'hover_text_color': '#FFFFFF'
+        },
         'directory_widget': {
             'background': '#00CD00',
             'label_background': '#00CD00',

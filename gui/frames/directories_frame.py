@@ -11,14 +11,14 @@ class DirectoryBox(tk.Entry):
     ''' wrap tkinter entry to make a text box for directory paths '''
     _config = CONFIG['directory_entry']
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, master, **kwargs):
         self._is_selected = False
         kwargs['state'] = 'disabled'
         kwargs['disabledbackground'] = self._config['inactive_directory_background']
         kwargs['disabledforeground'] = self._config['inactive_directory_text']
         kwargs['readonlybackground'] = self._config['active_directory_background']
         kwargs['foreground'] = self._config['active_directory_text']
-        super().__init__(*args, **kwargs)
+        super().__init__(master, **kwargs)
 
     @property
     def is_selected(self):
@@ -48,6 +48,25 @@ class DirectoryBox(tk.Entry):
             self.config(disabledbackground=self._config['error_directory_background'])
             self.config(disabledforeground=self._config['error_directory_text'])
             self.after(100, lambda: self.flash_error(_unflash=True))
+
+
+class SelectButton(tk.Button):
+    ''' wraps tkinter button to match the aesthetic '''
+    _config = CONFIG['select_button']
+
+    def __init__(self, master, **kwargs):
+        kwargs['font'] = ('Segoe UI', 11)
+        kwargs['text'] = self._config['legend']
+        kwargs['background'] = self._config['background']
+        kwargs['foreground'] = self._config['text_color']
+        kwargs['activebackground'] = self._config['hover_background']
+        kwargs['activeforeground'] = self._config['hover_text_color']
+        kwargs['pady'] = 0
+        kwargs['relief'] = 'flat'
+        kwargs['borderwidth'] = 0
+
+        super().__init__(master, **kwargs)
+
 
 
 
@@ -81,8 +100,8 @@ class DirectorySelectorFrame(tk.Frame):
         self._directory_entry = DirectoryBox(self, textvariable=self._entry_text)
         self._directory_entry.pack(side='left', fill=tk.X, expand=True)
 
-        self._select_button = tk.Button(self, text='Select Directory', command=self._on_select)
-        self._select_button.pack()
+        self._select_button = SelectButton(self, command=self._on_select)
+        self._select_button.pack(fill=tk.Y)
 
     def _on_select(self):
         if dir_path := filedialog.askdirectory():
