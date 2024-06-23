@@ -20,6 +20,7 @@ class DirectoryBox(tk.Entry):
         kwargs['foreground'] = self._config['active_directory_text']
         super().__init__(master, **kwargs)
 
+
     @property
     def is_selected(self):
         return self._is_selected
@@ -48,6 +49,9 @@ class DirectoryBox(tk.Entry):
             self.config(disabledbackground=self._config['error_directory_background'])
             self.config(disabledforeground=self._config['error_directory_text'])
             self.after(100, lambda: self.flash_error(_unflash=True))
+
+    def bind(self, key: str):
+        self.bind_all(f'<KeyPress-{key}>', lambda _:self.toggle())
 
 
 class SelectButton(tk.Button):
@@ -98,6 +102,8 @@ class DirectorySelectorFrame(tk.Frame):
         self._entry_text.set('No Directory Selected')
 
         self._directory_entry = DirectoryBox(self, textvariable=self._entry_text)
+        self._directory_entry.bind(self._char)
+        self._directory_entry.bind('KP_'+self._char)
         self._directory_entry.pack(side='left', fill=tk.X, expand=True)
 
         self._select_button = SelectButton(self, command=self._on_select)
