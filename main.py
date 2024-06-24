@@ -1,9 +1,11 @@
+''' a program for manually sorting images into directories '''
 import tkinter as tk
 from gui.main_gui import MainGui
 from config.config_manager import ConfigManager
 
 
 def main():
+    ''' initialize program '''
     ConfigManager()
     root = tk.Tk()
     root.title("Manual Image Sort")
