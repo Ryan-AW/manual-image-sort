@@ -23,6 +23,7 @@ class DirectoryBox(tk.Entry):
 
     @property
     def is_selected(self):
+        ''' return whether the user has selected this directory '''
         return self._is_selected
 
     @is_selected.setter
@@ -39,9 +40,11 @@ class DirectoryBox(tk.Entry):
             self.flash_error()
 
     def toggle(self):
+        ''' toggle the selection state of this directory '''
         self.is_selected = not self.is_selected
 
     def flash_error(self, _unflash=False):
+        ''' flash the directory red to indicate an invalid action '''
         if _unflash:
             self.config(disabledbackground=self._config['inactive_directory_background'])
             self.config(disabledforeground=self._config['inactive_directory_text'])
@@ -50,7 +53,8 @@ class DirectoryBox(tk.Entry):
             self.config(disabledforeground=self._config['error_directory_text'])
             self.after(100, lambda: self.flash_error(_unflash=True))
 
-    def bind(self, key: str):
+    def keybind(self, key: str):
+        ''' bind a key on the keyboard to the toggle function '''
         self.bind_all(f'<KeyPress-{key}>', lambda _:self.toggle())
 
 
@@ -102,8 +106,8 @@ class DirectorySelectorFrame(tk.Frame):
         self._entry_text.set('No Directory Selected')
 
         self._directory_entry = DirectoryBox(self, textvariable=self._entry_text)
-        self._directory_entry.bind(self._char)
-        self._directory_entry.bind('KP_'+self._char)
+        self._directory_entry.keybind(self._char)
+        self._directory_entry.keybind('KP_'+self._char)
         self._directory_entry.pack(side='left', fill=tk.X, expand=True)
 
         self._select_button = SelectButton(self, command=self._on_select)
@@ -143,4 +147,5 @@ class DirectoriesFrame(tk.Frame):
 
     @property
     def directories(self):
+        ''' return list of user inputted directories '''
         return [selector.directory for selector in self._selectors]
