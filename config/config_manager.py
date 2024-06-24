@@ -1,6 +1,5 @@
 ''' load config file and provides an interface to its values '''
 import configparser
-import os
 
 class ConfigManager:
     ''' manage config file '''
@@ -69,12 +68,13 @@ class ConfigManager:
         if isinstance(dict1, dict):
             if not isinstance(dict2, dict):
                 return False
-            else:
-                if set(dict1) <= set(dict2) and set(dict2) <= set(dict1):
-                    for key, value in dict1.items():
-                        if not self._has_same_keys(value, dict2[key]):
-                            return False
-                    return True
+
+            if set(dict1) <= set(dict2) and set(dict2) <= set(dict1):
+                for key, value in dict1.items():
+                    if not self._has_same_keys(value, dict2[key]):
+                        return False
+                return True
+
         elif not isinstance(dict2, dict):
             return True
         return False
