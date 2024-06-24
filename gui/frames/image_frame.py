@@ -17,7 +17,7 @@ class ImageFrame(tk.Frame):
 
         self._width = 800
         self._height = 600
-        
+
         self._error_images = {
             'ImageNotFound': ImageTk.PhotoImage(file='resources/img_not_found.png')
         }
@@ -36,6 +36,7 @@ class ImageFrame(tk.Frame):
         self._image_label.pack()
 
     def load_image(self, file_path):
+        ''' choose the image to display using its file path '''
         self._raw_image = Image.open(file_path)
         self._scale_image()
 
@@ -53,9 +54,9 @@ class ImageFrame(tk.Frame):
 
         background = Image.new('RGBA', (self._width, self._height), self._config['image_border'])
 
-        x = (self._width - new_width) // 2
-        y = (self._height - new_height) // 2
-        background.paste(self._image, (x, y), self._image)
+        padding_x = (self._width - new_width) // 2
+        padding_y = (self._height - new_height) // 2
+        background.paste(self._image, (padding_x, padding_y), self._image)
 
         self._image = ImageTk.PhotoImage(background)
         self._image_label.config(image=self._image)
@@ -64,4 +65,3 @@ class ImageFrame(tk.Frame):
         self._width = event.width-2
         self._height = event.height-2
         self._scale_image()
-
