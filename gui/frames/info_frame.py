@@ -7,7 +7,7 @@ class ReadOnlyInfoFrame(tk.Frame):
     def __init__(self, master, key, value, max_key_len, max_value_len):
         super().__init__(master)
         self.master = master
-        
+
         self._key = tk.StringVar()
         self._key.set(key)
 
@@ -29,18 +29,22 @@ class ReadOnlyInfoFrame(tk.Frame):
 
     @property
     def key(self):
+        ''' get the legend/key of the info '''
         return self._key.get()
 
     @property
     def value(self):
+        ''' get the value of the info '''
         return self._value.get()
 
     @key.setter
     def key(self, key: str):
+        ''' change the legend/key of the info '''
         self._key.set(key)
 
     @value.setter
     def value(self, value: str):
+        ''' change the value of the info '''
         self._value.set(value)
 
 
@@ -79,18 +83,22 @@ class MutableInfoFrame(tk.Frame):
 
     @property
     def key(self):
+        ''' get the legend/key of the info '''
         return self._key.get()
 
     @property
     def value(self):
+        ''' get the value of the info '''
         return self._value.get()
 
     @key.setter
     def key(self, key: str):
+        ''' change the legend/key of the info '''
         self._key.set(key)
 
     @value.setter
     def value(self, value: str):
+        ''' change the value of the info '''
         self._value.set(value)
 
 class InfoFrame(tk.Frame):
