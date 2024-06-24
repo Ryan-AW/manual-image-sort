@@ -37,6 +37,11 @@ class ConfigManager:
         'image_widget': {
             'image_frame': '#111111',
             'image_border': '#333333'
+        },
+        'mutable_info_frame': {
+            'background': '#00CD00',
+            'label_background': '#00CD00',
+            'label_text': '#100006'
         }
     }
 

@@ -1,6 +1,74 @@
 ''' implements a tkinter frame with multiple directory selectors '''
 import tkinter as tk
+from config.config_manager import ConfigManager
 from utils.info_table import InfoTable
+
+
+CONFIG = ConfigManager()
+
+
+class MutableInfoFrame(tk.Frame):
+    ''' tkinter frame for displaying info that the user can edit '''
+    _config = CONFIG['mutable_info_frame']
+
+    def __init__(self, master, key, value, max_width):
+        super().__init__(master)
+        self.master = master
+
+        self._key = tk.StringVar()
+        self._key.set(key)
+
+        self._value = tk.StringVar()
+        self._value.set(value)
+
+        self._max_width = max_width
+
+        self._create_widgets()
+
+    def _create_widgets(self):
+        super().config(background=self._config['background'])
+        self._key_label = tk.Label(
+                self,
+                textvariable=self._key,
+                anchor='e',
+                width=self._max_width,
+                background=self._config['label_background'],
+                foreground=self._config['label_text']
+            )
+        self._key_label.pack(side='left')
+
+        self._value_entry = tk.Entry(self, textvariable=self._value, state='readonly')
+        self._value_entry.pack(side='left', fill=tk.X, expand=True)
+
+        self._edit_button = tk.Button(self, command=self._on_edit)
+        self._edit_button.pack()
+
+    def _on_edit(self):
+        cur_state = self._value_entry.cget('state')
+        if cur_state == 'normal':
+            self._value_entry.configure(state='readonly')
+        else:
+            self._value_entry.configure(state='normal')
+
+    @property
+    def key(self):
+        ''' get the legend/key of the info '''
+        return self._key.get()
+
+    @property
+    def value(self):
+        ''' get the value of the info '''
+        return self._value.get()
+
+    @key.setter
+    def key(self, key: str):
+        ''' change the legend/key of the info '''
+        self._key.set(key)
+
+    @value.setter
+    def value(self, value: str):
+        ''' change the value of the info '''
+        self._value.set(value)
 
 
 class ReadOnlyInfoFrame(tk.Frame):
@@ -55,59 +123,6 @@ class ReadOnlyInfoFrame(tk.Frame):
         ''' change the value of the info '''
         self._value.set(value)
 
-
-class MutableInfoFrame(tk.Frame):
-    ''' tkinter frame for displaying info that the user can edit '''
-    def __init__(self, master, key, value, max_width):
-        super().__init__(master)
-        self.master = master
-
-        self._key = tk.StringVar()
-        self._key.set(key)
-
-        self._value = tk.StringVar()
-        self._value.set(value)
-
-        self._max_width = max_width
-
-        self._create_widgets()
-
-    def _create_widgets(self):
-        self._key_label = tk.Label(self, textvariable=self._key, anchor='e', width=self._max_width)
-        self._key_label.pack(side='left')
-
-        self._value_entry = tk.Entry(self, textvariable=self._value, state='readonly')
-        self._value_entry.pack(side='left', fill=tk.X, expand=True)
-
-        self._edit_button = tk.Button(self, command=self._on_edit)
-        self._edit_button.pack()
-
-    def _on_edit(self):
-        cur_state = self._value_entry.cget('state')
-        if cur_state == 'normal':
-            self._value_entry.configure(state='readonly')
-        else:
-            self._value_entry.configure(state='normal')
-
-    @property
-    def key(self):
-        ''' get the legend/key of the info '''
-        return self._key.get()
-
-    @property
-    def value(self):
-        ''' get the value of the info '''
-        return self._value.get()
-
-    @key.setter
-    def key(self, key: str):
-        ''' change the legend/key of the info '''
-        self._key.set(key)
-
-    @value.setter
-    def value(self, value: str):
-        ''' change the value of the info '''
-        self._value.set(value)
 
 class InfoFrame(tk.Frame):
     ''' tkinter frame for displaying file info '''
