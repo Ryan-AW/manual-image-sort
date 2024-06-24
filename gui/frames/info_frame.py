@@ -20,6 +20,7 @@ class ReadOnlyInfoFrame(tk.Frame):
         self._create_widgets()
 
     def _create_widgets(self):
+        super().config(pady=5)
         self._key_label = tk.Label(self, textvariable=self._key, anchor='e', width=12)
         self._key_label.pack(side='left')
 
@@ -124,5 +125,7 @@ class InfoFrame(tk.Frame):
         self._mutable_frames = [MutableInfoFrame(self, key, value, max_length) for key, value in mutable_info.items()]
         self._read_only_frames = [ReadOnlyInfoFrame(self, key, value, max_key_len, max_value_len) for key, value in immutable_info.items()]
 
-        for frame in self._mutable_frames+self._read_only_frames:
-            frame.pack(fill=tk.X, expand=True)
+        for frame in self._mutable_frames:
+            frame.pack(fill=tk.X)
+        for frame in self._read_only_frames:
+            frame.pack()
