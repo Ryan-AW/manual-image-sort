@@ -39,3 +39,11 @@ class MainGui(tk.Frame):
 
         self._left_frame.rowconfigure(0, weight=1)
         self._left_frame.rowconfigure(1, weight=1)
+
+
+def init_gui():
+    root = tk.Tk()
+    root.title("Manual Image Sort")
+    app = MainGui(root)
+    app.pack(fill=tk.BOTH, expand=True)
+    root.mainloop()

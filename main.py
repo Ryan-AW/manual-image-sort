@@ -1,17 +1,13 @@
 ''' a program for manually sorting images into directories '''
-import tkinter as tk
-from gui.main_gui import MainGui
 from config.config_manager import ConfigManager
+from gui.main_gui import init_gui
 
 
 def main():
     ''' initialize program '''
     ConfigManager()
-    root = tk.Tk()
-    root.title("Manual Image Sort")
-    app = MainGui(root)
-    app.pack(fill=tk.BOTH, expand=True)
-    root.mainloop()
+    init_gui()
+
 
 if __name__ == "__main__":
     main()
