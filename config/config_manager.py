@@ -42,6 +42,11 @@ class ConfigManager:
             'background': '#00CD00',
             'label_background': '#00CD00',
             'label_text': '#100006'
+        },
+        'read_only_frame': {
+            'background': '#00CD00',
+            'label_background': '#00CD00',
+            'label_text': '#100006'
         }
     }
 

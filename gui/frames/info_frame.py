@@ -73,6 +73,8 @@ class MutableInfoFrame(tk.Frame):
 
 class ReadOnlyInfoFrame(tk.Frame):
     ''' tkinter frame for displaying info in the format '<key> <value>' '''
+    _config = CONFIG['read_only_frame']
+
     def __init__(self, master, info_table: InfoTable, index: int):
         super().__init__(master)
         self.master = master
@@ -85,12 +87,15 @@ class ReadOnlyInfoFrame(tk.Frame):
 
     def _create_widgets(self):
         super().config(pady=5)
+        super().config(background=self._config['background'])
         self._key_label = tk.Label(
                 self,
                 textvariable=self._key,
                 anchor='e',
                 width=self._info_table.max_key_len,
-                font=('Consolas', 10)
+                font=('Consolas', 10),
+                background=self._config['label_background'],
+                foreground=self._config['label_text']
             )
         self._key_label.pack(side='left')
 
@@ -99,7 +104,9 @@ class ReadOnlyInfoFrame(tk.Frame):
                 textvariable=self._value,
                 anchor='e',
                 width=self._info_table.max_value_len,
-                font=('Consolas', 10)
+                font=('Consolas', 10),
+                background=self._config['label_background'],
+                foreground=self._config['label_text']
             )
         self._value_label.pack(side='right')
 
