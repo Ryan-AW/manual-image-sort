@@ -10,7 +10,8 @@ class ConfigManager:
 
     DEFAULT_CONFIG = {
         'root': {
-            'background': '#00CD00'
+            'background': '#00CD00',
+            'sub_frame_background': '#00CD00'
         },
         'directory_entry': {
             'inactive_directory_background': '#100006',

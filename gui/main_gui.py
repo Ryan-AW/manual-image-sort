@@ -19,7 +19,7 @@ class MainGui(tk.Frame):
         self.master = master
         self.grid(row=0, column=0, sticky='nsew')
 
-        self._left_frame = tk.Frame(self)
+        self._left_frame = tk.Frame(self, background=self._config['sub_frame_background'])
         self._left_frame.grid(row=0, column=0, sticky='nsew')
 
         self._info_frame = InfoFrame(self._left_frame)
