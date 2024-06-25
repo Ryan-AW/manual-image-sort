@@ -3,11 +3,19 @@ import tkinter as tk
 from .frames.directories_frame import DirectoriesFrame
 from .frames.info_frame import InfoFrame
 from .frames.image_frame import ImageFrame
+from config.config_manager import ConfigManager
+
+
+CONFIG = ConfigManager()
+
 
 class MainGui(tk.Frame):
     ''' combine various frames into the gui '''
+    _config = CONFIG['root']
+
     def __init__(self, master):
         super().__init__(master)
+        super().config(background=self._config['background'])
         self.master = master
         self.grid(row=0, column=0, sticky='nsew')
 

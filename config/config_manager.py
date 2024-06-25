@@ -9,6 +9,9 @@ class ConfigManager:
     CONFIG_PATH = 'config/config.conf'
 
     DEFAULT_CONFIG = {
+        'root': {
+            'background': '#00CD00'
+        },
         'directory_entry': {
             'inactive_directory_background': '#100006',
             'inactive_directory_text': '#CDCD00',
