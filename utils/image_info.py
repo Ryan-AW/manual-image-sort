@@ -74,6 +74,47 @@ class ImageInfo:
             return md5(img_file.read()).hexdigest()
 
 
+    @staticmethod
+    def _convert_bytes(num_bytes: int):
+        # this is a very bad implementation. And should be improved
+        si_total = [None for _ in range(6)]
+        bytes_remaining = num_bytes
+        si_total[0], bytes_remaining = divmod(bytes_remaining, 1000000000000000)
+        si_total[1], bytes_remaining = divmod(bytes_remaining, 1000000000000)
+        si_total[2], bytes_remaining = divmod(bytes_remaining, 1000000000)
+        si_total[3], bytes_remaining = divmod(bytes_remaining, 1000000)
+        si_total[4], bytes_remaining = divmod(bytes_remaining, 1000)
+        si_total[5] =  bytes_remaining
+
+        z_count = 0
+        for item in si_total:
+            if item != 0:
+                break
+            z_count += 1
+        si_total = si_total[z_count:]
+        si_total = '.'.join(map(str, si_total))
+        si_total = ['B ', 'B ','KB ', 'MB ', 'GB ', 'TB ', 'PB '][6-z_count] + si_total
+
+        iec_total = [None for _ in range(6)]
+        bytes_remaining = num_bytes
+        iec_total[0], bytes_remaining = divmod(bytes_remaining, 1125899906842624)
+        iec_total[1], bytes_remaining = divmod(bytes_remaining, 1099511627776)
+        iec_total[2], bytes_remaining = divmod(bytes_remaining, 1073741824)
+        iec_total[3], bytes_remaining = divmod(bytes_remaining, 1048576)
+        iec_total[4], bytes_remaining = divmod(bytes_remaining, 1024)
+        iec_total[5] =  bytes_remaining
+
+        z_count = 0
+        for item in iec_total:
+            if item != 0:
+                break
+            z_count += 1
+        iec_total = iec_total[z_count:]
+        iec_total = '.'.join(map(str, iec_total))
+        iec_total = ['B ', 'B ','KiB ', 'MiB ', 'GiB ', 'TiB ', 'PiB '][6-z_count] + iec_total
+
+        return si_total, iec_total
+
     @property
     def path(self):
         ''' returns the image's path '''
