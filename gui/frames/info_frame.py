@@ -150,10 +150,12 @@ class InfoFrame(tk.Frame):
         mutable_info = INFO.file_path_table
         immutable_info = INFO.file_table
 
-        self._mutable_frames = [MutableInfoFrame(self, mutable_info, i) for i in range(len(mutable_info))]
-        self._read_only_frames = [ReadOnlyInfoFrame(self, immutable_info, i) for i in range(len(immutable_info))]
+        self._mutable_frames = []
+        for i in range(len(mutable_info)):
+            self._mutable_frames.append(MutableInfoFrame(self, mutable_info, i))
+            self._mutable_frames[-1].pack(fill=tk.X)
 
-        for frame in self._mutable_frames:
-            frame.pack(fill=tk.X)
-        for frame in self._read_only_frames:
-            frame.pack()
+        self._immutable_frames = []
+        for i in range(len(immutable_info)):
+            self._immutable_frames.append(ReadOnlyInfoFrame(self, immutable_info, i))
+            self._immutable_frames[-1].pack(fill=tk.X)
