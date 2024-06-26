@@ -10,15 +10,15 @@ class ConfigManager:
 
     DEFAULT_CONFIG = {
         'root': {
-            'background': '#00CD00',
-            'sub_frame_background': '#00CD00'
+            'background': '#111111',
+            'sub_frame_background': '#111111'
         },
         'directory_entry': {
             'inactive_directory_background': '#100006',
             'inactive_directory_text': '#CDCD00',
             'active_directory_background': '#100006',
-            'active_directory_text': '#00CD00',
-            'selected_directory_background': '#00CD00',
+            'active_directory_text': '#111111',
+            'selected_directory_background': '#111111',
             'selected_directory_text': '#100006',
             'error_directory_background': '#CD0000',
             'error_directory_text': '#EEEEEE'
@@ -31,29 +31,29 @@ class ConfigManager:
             'hover_text_color': '#FFFFFF'
         },
         'directory_widget': {
-            'background': '#00CD00',
-            'label_background': '#00CD00',
-            'label_text': '#100006'
+            'background': '#111111',
+            'label_background': '#111111',
+            'label_text': '#EEEEEE'
         },
         'directories_frame': {
-            'background': '#00CD00'
+            'background': '#111111'
         },
         'image_widget': {
             'image_frame': '#111111',
             'image_border': '#333333'
         },
         'mutable_info_frame': {
-            'background': '#00CD00',
-            'label_background': '#00CD00',
-            'label_text': '#100006'
+            'background': '#111111',
+            'label_background': '#111111',
+            'label_text': '#EEEEEE'
         },
         'read_only_frame': {
-            'background': '#00CD00',
-            'label_background': '#00CD00',
-            'label_text': '#100006'
+            'background': '#111111',
+            'label_background': '#111111',
+            'label_text': '#EEEEEE'
         },
         'info_frame': {
-            'background': '#00CD00'
+            'background': '#111111'
         }
     }
 
