@@ -1,6 +1,7 @@
 ''' create an image datatype '''
 from pathlib import Path
 from datetime import datetime
+from hashlib import md5
 
 
 class ImageInfo:
@@ -21,5 +22,9 @@ class ImageInfo:
         self._last_modified_utc = datetime.fromtimestamp(last_modified)
         self._created_utc = datetime.fromtimestamp(time_created)
 
+        self._checksum = self._md5_checksum()
 
-ImageInfo(Path(__file__).parent.parent/'resources/img_not_found.png')
+
+    def _md5_checksum(self):
+        with open(self._path, 'rb') as img_file:
+            return md5(img_file.read()).hexdigest()
