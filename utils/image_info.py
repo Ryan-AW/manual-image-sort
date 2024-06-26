@@ -2,21 +2,44 @@
 from pathlib import Path
 from datetime import datetime
 from hashlib import md5
+from utils.info_table import InfoTable
 
 
 class ImageInfo:
     ''' image type that also has file info '''
-    def __init__(self, image_path):
-        self._checksum = self._md5_checksum(image_path)
+    _instance = None
 
-        self._path = Path(image_path)
 
-        self._path_info = {
-                'path': self._path,
-                'parent': self._path.parent,
-                'filename': self._path.stem,
-                'extension': self._path.suffix[1:]
+    def __new__(cls):
+        if cls._instance is None:
+            cls._instance = super(ImageInfo, cls).__new__(cls)
+        return cls._instance
+
+
+    def __init__(self):
+        self._file_path_info = InfoTable()
+        self._file_path_info.append('parent', '')
+        self._file_path_info.append('filename', '')
+        self._file_path_info.append('extension', '')
+
+        self._checksum = None
+        self._path = None
+
+        self._file_datetimes = {
+                'accessed': None,
+                'modified': None,
+                'created': None
         }
+
+
+    def open(self, image_path):
+        ''' choose image to laod its info '''
+        self._checksum = self._md5_checksum(image_path)
+        self._path = Path(image_path).resolve()
+
+        self._file_path_info.set_value(0, self._path.parent)
+        self._file_path_info.set_value(1, self._path.stem)
+        self._file_path_info.set_value(2, self._path.suffix[1:])
 
         *_, raw_size, last_accessed, last_modified, time_created = self._path.stat()
 
@@ -24,7 +47,7 @@ class ImageInfo:
                 'accessed': datetime.fromtimestamp(last_accessed),
                 'modified': datetime.fromtimestamp(last_modified),
                 'created': datetime.fromtimestamp(time_created)
-        }
+                }
 
 
     @staticmethod
@@ -36,22 +59,22 @@ class ImageInfo:
     @property
     def path(self):
         ''' returns the image's path '''
-        return self._path_info['path']
+        return self._path
 
     @property
     def parent(self):
         ''' returns the directory of the image '''
-        return self._path_info['parent']
+        return self._file_path_info.get_value(0)
 
     @property
     def filename(self):
         ''' returns the filename of the image '''
-        return self._path_info['filename']
+        return self._file_path_info.get_value(1)
 
     @property
     def extension(self):
         ''' returns the file extension of the image '''
-        return self._path_info['extension']
+        return self._file_path_info.get_value(2)
 
 
     @property
