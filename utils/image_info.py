@@ -2,6 +2,7 @@
 from pathlib import Path
 from datetime import datetime
 from hashlib import md5
+import tkinter as tk
 from utils.info_table import InfoTable
 
 
@@ -31,15 +32,32 @@ class ImageInfo:
                 'created': None
         }
 
+    def tk_init(self):
+        self._file_path_info.set(
+                0,
+                tk.StringVar(value='Parent:'),
+                tk.StringVar(value='')
+            )
+        self._file_path_info.set(
+                1,
+                tk.StringVar(value='Filename:'),
+                tk.StringVar(value='')
+            )
+        self._file_path_info.set(
+                2,
+                tk.StringVar(value='Extension:'),
+                tk.StringVar(value='')
+            )
+
 
     def open(self, image_path):
         ''' choose image to laod its info '''
         self._checksum = self._md5_checksum(image_path)
         self._path = Path(image_path).resolve()
 
-        self._file_path_info.set_value(0, self._path.parent)
-        self._file_path_info.set_value(1, self._path.stem)
-        self._file_path_info.set_value(2, self._path.suffix[1:])
+        self._file_path_info.set_value(0, tk.StringVar(value=self._path.parent))
+        self._file_path_info.set_value(1, tk.StringVar(value=self._path.stem))
+        self._file_path_info.set_value(2, tk.StringVar(value=self._path.suffix[1:]))
 
         *_, raw_size, last_accessed, last_modified, time_created = self._path.stat()
 
@@ -97,3 +115,8 @@ class ImageInfo:
     def checksum(self):
         ''' returns the checksum of the image '''
         return self._checksum
+
+
+    @property
+    def file_path_table(self):
+        return self._file_path_info
