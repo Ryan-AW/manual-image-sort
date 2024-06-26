@@ -18,19 +18,21 @@ class ImageInfo:
 
 
     def __init__(self):
-        self._file_path_info = InfoTable()
-        self._file_path_info.append('parent', '')
-        self._file_path_info.append('filename', '')
-        self._file_path_info.append('extension', '')
-
-        self._checksum = None
         self._path = None
 
-        self._file_datetimes = {
-                'accessed': None,
-                'modified': None,
-                'created': None
-        }
+        self._file_path_info = InfoTable()
+        self._file_path_info.append('', '')
+        self._file_path_info.append('', '')
+        self._file_path_info.append('', '')
+
+        self._file_info = InfoTable()
+        self._file_info.append('', '')
+        self._file_info.append('', '')
+        self._file_info.append('', '')
+        self._file_info.append('', '')
+        self._file_info.append('', '')
+        self._file_info.append('', '')
+
 
     def tk_init(self):
         self._file_path_info.set(
@@ -49,10 +51,40 @@ class ImageInfo:
                 tk.StringVar(value='')
             )
 
+        self._file_info.set(
+                0,
+                tk.StringVar(value='(SI) File Size:'),
+                tk.StringVar(value='')
+            )
+        self._file_info.set(
+                1,
+                tk.StringVar(value='(IEC) File Size:'),
+                tk.StringVar(value='')
+            )
+        self._file_info.set(
+                2,
+                tk.StringVar(value='Last Accessed:'),
+                tk.StringVar(value='')
+            )
+        self._file_info.set(
+                3,
+                tk.StringVar(value='Last Modified:'),
+                tk.StringVar(value='')
+            )
+        self._file_info.set(
+                4,
+                tk.StringVar(value='Time Created:'),
+                tk.StringVar(value='')
+            )
+        self._file_info.set(
+                5,
+                tk.StringVar(value='md5 Hash:'),
+                tk.StringVar(value='')
+            )
+
 
     def open(self, image_path):
         ''' choose image to laod its info '''
-        self._checksum = self._md5_checksum(image_path)
         self._path = Path(image_path).resolve()
 
         self._file_path_info.set_value(0, tk.StringVar(value=self._path.parent))
@@ -60,12 +92,14 @@ class ImageInfo:
         self._file_path_info.set_value(2, tk.StringVar(value=self._path.suffix[1:]))
 
         *_, raw_size, last_accessed, last_modified, time_created = self._path.stat()
+        si_size, iec_size = self._convert_bytes(raw_size)
 
-        self._file_datetimes = {
-                'accessed': datetime.fromtimestamp(last_accessed),
-                'modified': datetime.fromtimestamp(last_modified),
-                'created': datetime.fromtimestamp(time_created)
-                }
+        self._file_info.set_value(0, tk.StringVar(value=si_size))
+        self._file_info.set_value(1, tk.StringVar(value=iec_size))
+        self._file_info.set_value(2, tk.StringVar(value=datetime.fromtimestamp(last_accessed)))
+        self._file_info.set_value(3, tk.StringVar(value=datetime.fromtimestamp(last_modified)))
+        self._file_info.set_value(4, tk.StringVar(value=datetime.fromtimestamp(time_created)))
+        self._file_info.set_value(5, tk.StringVar(value=self._md5_checksum(image_path)))
 
 
     @staticmethod
@@ -137,27 +171,44 @@ class ImageInfo:
 
 
     @property
+    def si_size(self):
+        ''' returns the file size of the image using si units '''
+        return self._file_info.get_value(0)
+
+    @property
+    def iec_size(self):
+        ''' returns the file size of the image using iec units '''
+        return self._file_info.get_value(1)
+
+
+    @property
     def last_accessed(self):
         ''' returns the datetime of when the image was last accessed '''
-        return self._file_datetimes['accessed']
+        return self._file_info.get_value(2)
 
     @property
     def last_modified(self):
         ''' returns the datetime of when the image was last modified '''
-        return self._file_datetimes['modified']
+        return self._file_info.get_value(3)
 
     @property
     def time_created(self):
         ''' returns the datetime of when the image was created '''
-        return self._file_datetimes['created']
+        return self._file_info.get_value(4)
 
 
     @property
     def checksum(self):
         ''' returns the checksum of the image '''
-        return self._checksum
+        return self._file_info.get_value(5)
 
 
     @property
     def file_path_table(self):
+        ''' returns a table of info about the file system '''
         return self._file_path_info
+
+    @property
+    def file_table(self):
+        ''' returns a table of info about the image itself '''
+        return self._file_info
