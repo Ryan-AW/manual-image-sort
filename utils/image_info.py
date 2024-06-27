@@ -110,25 +110,23 @@ class ImageInfo:
 
     @staticmethod
     def _convert_bytes(num_bytes: int):
+        si_result = ''
+        units = ('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')
+        values = [0] * len(units)
+        unit_pointer = len(units)-1
+        max_unit_pointer = 0
+        remainder = num_bytes
+        value = None
+        while unit_pointer+1:
+            value, remainder = divmod(remainder, 1000**unit_pointer)
+            values[(len(values)-1)-unit_pointer] = str(value)
+            if not max_unit_pointer and values[(len(units)-1)-unit_pointer]:
+                max_unit_pointer = (len(units)-1)-unit_pointer
+            unit_pointer -= 1
+        si_result = units[max_unit_pointer]+' '+'.'.join(values).lstrip('0.')
+            
+
         # this is a very bad implementation. And should be improved
-        si_total = [None for _ in range(6)]
-        bytes_remaining = num_bytes
-        si_total[0], bytes_remaining = divmod(bytes_remaining, 1000000000000000)
-        si_total[1], bytes_remaining = divmod(bytes_remaining, 1000000000000)
-        si_total[2], bytes_remaining = divmod(bytes_remaining, 1000000000)
-        si_total[3], bytes_remaining = divmod(bytes_remaining, 1000000)
-        si_total[4], bytes_remaining = divmod(bytes_remaining, 1000)
-        si_total[5] =  bytes_remaining
-
-        z_count = 0
-        for item in si_total:
-            if item != 0:
-                break
-            z_count += 1
-        si_total = si_total[z_count:]
-        si_total = '.'.join(map(str, si_total))
-        si_total = ['B ', 'B ','KB ', 'MB ', 'GB ', 'TB ', 'PB '][6-z_count] + si_total
-
         iec_total = [None for _ in range(6)]
         bytes_remaining = num_bytes
         iec_total[0], bytes_remaining = divmod(bytes_remaining, 1125899906842624)
@@ -147,7 +145,7 @@ class ImageInfo:
         iec_total = '.'.join(map(str, iec_total))
         iec_total = ['B ', 'B ','KiB ', 'MiB ', 'GiB ', 'TiB ', 'PiB '][6-z_count] + iec_total
 
-        return si_total, iec_total
+        return si_result, iec_total
 
     @property
     def path(self):
