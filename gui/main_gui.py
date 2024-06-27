@@ -7,6 +7,7 @@ from config.config_manager import ConfigManager
 
 
 CONFIG = ConfigManager()
+root = None
 
 
 class MainGui(tk.Frame):
@@ -42,8 +43,13 @@ class MainGui(tk.Frame):
 
 
 def init_gui():
+    global root
     root = tk.Tk()
     root.title("Manual Image Sort")
     app = MainGui(root)
     app.pack(fill=tk.BOTH, expand=True)
+
+
+def mainloop():
+    global root
     root.mainloop()

@@ -76,10 +76,10 @@ class InfoTable:
             pass
 
         if len(str(key)) > self._max_key_len:
-            self._max_key_len = len(key)
+            self._max_key_len = len(str(key))
 
         if len(str(value)) > self._max_value_len:
-            self._max_value_len = len(value)
+            self._max_value_len = len(str(value))
 
     def __iter__(self):
         for item in self._array:
