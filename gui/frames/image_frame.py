@@ -2,9 +2,11 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 from config.config_manager import ConfigManager
+from utils.image_info import ImageInfo
 
 
 CONFIG = ConfigManager()
+INFO = ImageInfo()
 
 
 class ImageFrame(tk.Frame):
@@ -18,14 +20,14 @@ class ImageFrame(tk.Frame):
         self._width = 800
         self._height = 600
 
-        self._error_images = {
-            'ImageNotFound': ImageTk.PhotoImage(file='resources/img_not_found.png')
-        }
 
-        self._image = self._error_images['ImageNotFound']
+        self._image = None
         self._raw_image = None
+
         self._create_widgets()
-        self.load_image('resources/img_not_found.png')
+
+        self.load_image(INFO.path)
+
         self.bind("<Configure>", self._on_resize)
 
     def _create_widgets(self):
