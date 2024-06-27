@@ -1,12 +1,13 @@
 ''' load config file and provides an interface to its values '''
 import configparser
+from pathlib import Path
 
 class ConfigManager:
     ''' manage config file '''
     _instance = None
     _config = None
 
-    CONFIG_PATH = 'config/config.conf'
+    CONFIG_PATH = Path(__file__).parent/'themes'/'theme.conf'
 
     DEFAULT_CONFIG = {
         'root': {
