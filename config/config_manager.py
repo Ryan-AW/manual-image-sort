@@ -17,8 +17,8 @@ class ConfigManager:
             'inactive_directory_background': '#100006',
             'inactive_directory_text': '#CDCD00',
             'active_directory_background': '#100006',
-            'active_directory_text': '#111111',
-            'selected_directory_background': '#111111',
+            'active_directory_text': '#00EE00',
+            'selected_directory_background': '#00EE00',
             'selected_directory_text': '#100006',
             'error_directory_background': '#CD0000',
             'error_directory_text': '#EEEEEE'
