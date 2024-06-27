@@ -110,42 +110,24 @@ class ImageInfo:
 
     @staticmethod
     def _convert_bytes(num_bytes: int):
-        si_result = ''
-        units = ('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')
-        values = [0] * len(units)
-        unit_pointer = len(units)-1
-        max_unit_pointer = 0
-        remainder = num_bytes
-        value = None
-        while unit_pointer+1:
-            value, remainder = divmod(remainder, 1000**unit_pointer)
-            values[(len(values)-1)-unit_pointer] = str(value)
-            if not max_unit_pointer and values[(len(units)-1)-unit_pointer]:
-                max_unit_pointer = (len(units)-1)-unit_pointer
-            unit_pointer -= 1
-        si_result = units[max_unit_pointer]+' '+'.'.join(values).lstrip('0.')
-            
-
-        # this is a very bad implementation. And should be improved
-        iec_total = [None for _ in range(6)]
-        bytes_remaining = num_bytes
-        iec_total[0], bytes_remaining = divmod(bytes_remaining, 1125899906842624)
-        iec_total[1], bytes_remaining = divmod(bytes_remaining, 1099511627776)
-        iec_total[2], bytes_remaining = divmod(bytes_remaining, 1073741824)
-        iec_total[3], bytes_remaining = divmod(bytes_remaining, 1048576)
-        iec_total[4], bytes_remaining = divmod(bytes_remaining, 1024)
-        iec_total[5] =  bytes_remaining
-
-        z_count = 0
-        for item in iec_total:
-            if item != 0:
-                break
-            z_count += 1
-        iec_total = iec_total[z_count:]
-        iec_total = '.'.join(map(str, iec_total))
-        iec_total = ['B ', 'B ','KiB ', 'MiB ', 'GiB ', 'TiB ', 'PiB '][6-z_count] + iec_total
-
-        return si_result, iec_total
+        division = [1000, 1024]
+        results = ['', '']
+        units = ('B', 'kB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB')
+        for i, units in enumerate((('B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'),
+                        ('B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'))):
+            values = [0] * len(units)
+            unit_pointer = len(units)-1
+            max_unit_pointer = 0
+            remainder = num_bytes
+            value = None
+            while unit_pointer+1:
+                value, remainder = divmod(remainder, division[i]**unit_pointer)
+                values[(len(values)-1)-unit_pointer] = str(value)
+                if not max_unit_pointer and values[(len(units)-1)-unit_pointer]:
+                    max_unit_pointer = (len(units)-1)-unit_pointer
+                unit_pointer -= 1
+            results[i] = units[max_unit_pointer]+' '+'.'.join(values).lstrip('0.')
+        return results
 
     @property
     def path(self):
