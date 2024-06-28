@@ -18,6 +18,7 @@ class DirectoryBox(tk.Entry):
         kwargs['disabledforeground'] = self._config['inactive_directory_text']
         kwargs['readonlybackground'] = self._config['active_directory_background']
         kwargs['foreground'] = self._config['active_directory_text']
+        kwargs['highlightthickness'] = 0
         super().__init__(master, **kwargs)
 
 
