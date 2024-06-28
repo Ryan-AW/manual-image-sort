@@ -73,6 +73,7 @@ class SelectButton(tk.Button):
         kwargs['pady'] = 0
         kwargs['relief'] = 'flat'
         kwargs['borderwidth'] = 0
+        kwargs['highlightthickness'] = 0
 
         super().__init__(master, **kwargs)
 
@@ -112,7 +113,7 @@ class DirectorySelectorFrame(tk.Frame):
         self._directory_entry.pack(side='left', fill=tk.X, expand=True)
 
         self._select_button = SelectButton(self, command=self._on_select)
-        self._select_button.pack(fill=tk.Y)
+        self._select_button.pack(fill=tk.Y, expand=True)
 
     def _on_select(self):
         if dir_path := filedialog.askdirectory():
