@@ -72,8 +72,19 @@ class MutableInfoFrame(tk.Frame):
 
 
 class SourceDirectorySelector(MutableInfoFrame):
+    _source_config = CONFIG['source_selector']
     def __init__(self, master, info_table: InfoTable, index: int):
         super().__init__(master, info_table, index)
+        self._key_label.config(
+                background=self._source_config['label_background'],
+                foreground=self._source_config['label_text']
+            )
+
+        self._value_entry.config(
+                readonlybackground=self._source_config['background'],
+                foreground=self._source_config['text'],
+                highlightthickness = 0
+            )
 
     def _on_edit(self):
         if dir_path := filedialog.askdirectory():

@@ -48,6 +48,12 @@ class ConfigManager:
             'label_background': '#111111',
             'label_text': '#EEEEEE'
         },
+        'source_selector': {
+            'background': '#100006',
+            'text': '#CDCD00',
+            'label_background': '#111111',
+            'label_text': '#CDCD00'
+        },
         'read_only_frame': {
             'background': '#111111',
             'label_background': '#111111',
