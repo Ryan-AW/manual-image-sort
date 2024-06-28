@@ -3,7 +3,7 @@ from pathlib import Path
 from datetime import datetime
 from hashlib import md5
 import tkinter as tk
-from utils.info_table import InfoTable
+from .info_table import InfoTable
 
 
 class ImageInfo:

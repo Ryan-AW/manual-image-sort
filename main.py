@@ -1,7 +1,7 @@
 ''' a program for manually sorting images into directories '''
-from config.config_manager import ConfigManager
-from gui.main_gui import init_gui, mainloop
-from utils.image_info import ImageInfo
+from config import ConfigManager
+from gui import init_gui, mainloop
+from utils import ImageInfo
 
 
 def main():

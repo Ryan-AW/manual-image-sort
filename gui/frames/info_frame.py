@@ -1,8 +1,8 @@
 ''' implements a tkinter frame with multiple directory selectors '''
 import tkinter as tk
-from config.config_manager import ConfigManager
-from utils.info_table import InfoTable
-from utils.image_info import ImageInfo
+from pathlib import Path
+from config import ConfigManager
+from utils import InfoTable, ImageInfo
 
 
 CONFIG = ConfigManager()
@@ -145,7 +145,7 @@ class InfoFrame(tk.Frame):
         INFO.tk_init()
 
         # remove this line when image loading logic is implemented
-        INFO.open('resources/img_not_found.png')
+        INFO.open(Path(__file__).parent.parent.parent/'resources'/'img_not_found.png')
 
         mutable_info = INFO.file_path_table
         immutable_info = INFO.file_table

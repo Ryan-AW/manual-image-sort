@@ -1,7 +1,7 @@
 ''' implements a tkinter frame with multiple directory selectors '''
 import tkinter as tk
 from tkinter import filedialog
-from config.config_manager import ConfigManager
+from config import ConfigManager
 
 
 CONFIG = ConfigManager()
