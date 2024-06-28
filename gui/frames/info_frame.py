@@ -69,6 +69,11 @@ class MutableInfoFrame(tk.Frame):
         self._value.set(value)
 
 
+class SourceDirectorySelector(MutableInfoFrame):
+    def __init__(self, master, info_table: InfoTable, index: int):
+        super().__init__(master, info_table, index)
+
+
 class ReadOnlyInfoFrame(tk.Frame):
     ''' tkinter frame for displaying info in the format '<key> <value>' '''
     _config = CONFIG['read_only_frame']
@@ -150,8 +155,11 @@ class InfoFrame(tk.Frame):
         mutable_info = INFO.file_path_table
         immutable_info = INFO.file_table
 
+        self._source_directory = SourceDirectorySelector(self, mutable_info, 0)
+        self._source_directory.pack(fill=tk.X)
+
         self._mutable_frames = []
-        for i in range(len(mutable_info)):
+        for i in range(1, len(mutable_info)):
             self._mutable_frames.append(MutableInfoFrame(self, mutable_info, i))
             self._mutable_frames[-1].pack(fill=tk.X)
 
