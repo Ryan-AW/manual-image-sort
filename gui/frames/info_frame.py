@@ -1,6 +1,7 @@
 ''' implements a tkinter frame with multiple directory selectors '''
 import tkinter as tk
 from pathlib import Path
+from tkinter import filedialog
 from config import ConfigManager
 from utils import InfoTable, ImageInfo
 
@@ -16,6 +17,7 @@ class MutableInfoFrame(tk.Frame):
     def __init__(self, master, info_table: InfoTable, index: int):
         super().__init__(master)
         self.master = master
+        self._index = index
 
         self._info_table = info_table
         self._key = info_table.get_key(index)
@@ -72,6 +74,10 @@ class MutableInfoFrame(tk.Frame):
 class SourceDirectorySelector(MutableInfoFrame):
     def __init__(self, master, info_table: InfoTable, index: int):
         super().__init__(master, info_table, index)
+
+    def _on_edit(self):
+        if dir_path := filedialog.askdirectory():
+            self._info_table.get_value(self._index).set(dir_path)
 
 
 class ReadOnlyInfoFrame(tk.Frame):
