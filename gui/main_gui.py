@@ -1,7 +1,7 @@
 ''' compose a gui out of various independent frames '''
 import tkinter as tk
 from .frames import DirectoriesFrame, InfoFrame, ImageFrame
-from config.config_manager import ConfigManager
+from config import ConfigManager
 
 CONFIG = ConfigManager()
 root = None

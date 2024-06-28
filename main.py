@@ -1,5 +1,5 @@
 ''' a program for manually sorting images into directories '''
-from config.config_manager import ConfigManager
+from config import ConfigManager
 from gui import init_gui, mainloop
 from utils.image_info import ImageInfo
 

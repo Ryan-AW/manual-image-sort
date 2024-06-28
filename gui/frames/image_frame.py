@@ -1,7 +1,7 @@
 ''' implements a tkinter frame for displaying an image '''
 import tkinter as tk
 from PIL import Image, ImageTk
-from config.config_manager import ConfigManager
+from config import ConfigManager
 from utils.image_info import ImageInfo
 
 

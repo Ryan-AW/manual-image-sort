@@ -1,7 +1,7 @@
 ''' implements a tkinter frame with multiple directory selectors '''
 import tkinter as tk
 from pathlib import Path
-from config.config_manager import ConfigManager
+from config import ConfigManager
 from utils.info_table import InfoTable
 from utils.image_info import ImageInfo
 
