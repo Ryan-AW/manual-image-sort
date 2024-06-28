@@ -2,8 +2,7 @@
 import tkinter as tk
 from pathlib import Path
 from config import ConfigManager
-from utils.info_table import InfoTable
-from utils.image_info import ImageInfo
+from utils import InfoTable, ImageInfo
 
 
 CONFIG = ConfigManager()

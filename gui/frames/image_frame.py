@@ -2,7 +2,7 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 from config import ConfigManager
-from utils.image_info import ImageInfo
+from utils import ImageInfo
 
 
 CONFIG = ConfigManager()
