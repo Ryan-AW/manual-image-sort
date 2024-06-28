@@ -1,6 +1,7 @@
 ''' implements a tkinter frame with multiple directory selectors '''
 import tkinter as tk
 from pathlib import Path
+from tkinter import filedialog
 from config import ConfigManager
 from utils import InfoTable, ImageInfo
 
@@ -16,6 +17,7 @@ class MutableInfoFrame(tk.Frame):
     def __init__(self, master, info_table: InfoTable, index: int):
         super().__init__(master)
         self.master = master
+        self._index = index
 
         self._info_table = info_table
         self._key = info_table.get_key(index)
@@ -67,6 +69,26 @@ class MutableInfoFrame(tk.Frame):
     def value(self, value: str):
         ''' change the value of the info '''
         self._value.set(value)
+
+
+class SourceDirectorySelector(MutableInfoFrame):
+    _source_config = CONFIG['source_selector']
+    def __init__(self, master, info_table: InfoTable, index: int):
+        super().__init__(master, info_table, index)
+        self._key_label.config(
+                background=self._source_config['label_background'],
+                foreground=self._source_config['label_text']
+            )
+
+        self._value_entry.config(
+                readonlybackground=self._source_config['background'],
+                foreground=self._source_config['text'],
+                highlightthickness = 0
+            )
+
+    def _on_edit(self):
+        if dir_path := filedialog.askdirectory():
+            self._info_table.get_value(self._index).set(dir_path)
 
 
 class ReadOnlyInfoFrame(tk.Frame):
@@ -150,8 +172,11 @@ class InfoFrame(tk.Frame):
         mutable_info = INFO.file_path_table
         immutable_info = INFO.file_table
 
+        self._source_directory = SourceDirectorySelector(self, mutable_info, 0)
+        self._source_directory.pack(fill=tk.X)
+
         self._mutable_frames = []
-        for i in range(len(mutable_info)):
+        for i in range(1, len(mutable_info)):
             self._mutable_frames.append(MutableInfoFrame(self, mutable_info, i))
             self._mutable_frames[-1].pack(fill=tk.X)
 
