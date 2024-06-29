@@ -6,6 +6,7 @@ import os
 class ImageArray:
     ''' an array of image paths '''
     _instance = None
+    _update_function = lambda: None
 
     def __new__(cls):
         if cls._instance is None:
@@ -35,6 +36,11 @@ class ImageArray:
     def next(self):
         ''' move to next image '''
         self._cur_path = self._paths.pop()
+        self._update_function()
+
+    def update(self, function):
+        ''' provide a function that shall be run when next() is called '''
+        self._update_function = function
 
     def _raise_image_not_found(self):
         self._paths = []
