@@ -35,7 +35,10 @@ class ImageArray:
 
     def next(self):
         ''' move to next image '''
-        self._cur_path = self._paths.pop()
+        try:
+            self._cur_path = self._paths.pop()
+        except IndexError:
+            self._raise_image_not_found()
         self._update_function()
 
     def update(self, function):
