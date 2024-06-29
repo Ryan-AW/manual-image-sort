@@ -3,6 +3,7 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog
 from config import ConfigManager
+from gui.frames import ImageFrame
 from utils import ImageArray, InfoTable, ImageInfo
 
 
@@ -91,6 +92,7 @@ class SourceDirectorySelector(MutableInfoFrame):
         if dir_path := filedialog.askdirectory():
             PATHS.load_directory(dir_path)
             self._info_table.get_value(self._index).set(dir_path)
+            ImageFrame().load_image()
 
 
 class ReadOnlyInfoFrame(tk.Frame):
