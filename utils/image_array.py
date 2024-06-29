@@ -1,4 +1,5 @@
-''' create an image array '''
+''' create an array of image paths '''
+from pathlib import Path
 import os
 
 
@@ -21,7 +22,11 @@ class ImageArray:
         for filename in os.listdir(directory):
             if filename.endswith(('.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tif', '.tiff')):
                 image_files.append(os.path.join(directory, filename))
-        self._cur_path, *self._paths = image_files
+        try:
+            self._cur_path, *self._paths = image_files
+        except ValueError:
+            self._paths = []
+            self._cur_path = Path(__file__).parent/'resources'/'img_not_found.png'
 
     def cur_path(self):
         ''' return the current image '''
