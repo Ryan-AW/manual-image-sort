@@ -2,11 +2,12 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 from config import ConfigManager
-from utils import ImageInfo
+from utils import ImageArray, ImageInfo
 
 
 CONFIG = ConfigManager()
 INFO = ImageInfo()
+PATHS = ImageArray()
 
 
 class ImageFrame(tk.Frame):
@@ -26,7 +27,7 @@ class ImageFrame(tk.Frame):
 
         self._create_widgets()
 
-        self.load_image(INFO.path)
+        self.load_image(PATHS.cur_path())
 
         self.bind("<Configure>", self._on_resize)
 
