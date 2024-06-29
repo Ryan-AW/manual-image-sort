@@ -47,7 +47,7 @@ class ImageFrame(tk.Frame):
 
     def load_image(self):
         ''' choose the image to display using its file path '''
-        self._raw_image = Image.open(PATHS.cur_path())
+        self._raw_image = Image.open(PATHS.cur_path()).convert("RGBA")
         self._scale_image()
 
     def _scale_image(self):
