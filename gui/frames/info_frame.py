@@ -3,11 +3,12 @@ import tkinter as tk
 from pathlib import Path
 from tkinter import filedialog
 from config import ConfigManager
-from utils import InfoTable, ImageInfo
+from utils import ImageArray, InfoTable, ImageInfo
 
 
 CONFIG = ConfigManager()
 INFO = ImageInfo()
+PATHS = ImageArray()
 
 
 class MutableInfoFrame(tk.Frame):
@@ -88,6 +89,7 @@ class SourceDirectorySelector(MutableInfoFrame):
 
     def _on_edit(self):
         if dir_path := filedialog.askdirectory():
+            PATHS.load_directory(dir_path)
             self._info_table.get_value(self._index).set(dir_path)
 
 
