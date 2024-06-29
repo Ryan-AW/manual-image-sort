@@ -15,6 +15,7 @@ class ImageArray:
     def __init__(self):
         self._paths = []
         self._cur_path = ''
+        self._raise_image_not_found()
 
     def load_directory(self, directory):
         ''' scrape all the images from a directory (non-recursive) '''
@@ -25,8 +26,7 @@ class ImageArray:
         try:
             self._cur_path, *self._paths = image_files
         except ValueError:
-            self._paths = []
-            self._cur_path = Path(__file__).parent/'resources'/'img_not_found.png'
+            self._raise_image_not_found()
 
     def cur_path(self):
         ''' return the current image '''
@@ -35,3 +35,8 @@ class ImageArray:
     def next(self):
         ''' move to next image '''
         self._cur_path = self._paths.pop()
+
+    def _raise_image_not_found(self):
+        self._paths = []
+        self._cur_path = Path(__file__).parent/'resources'/'img_not_found.png'
+
