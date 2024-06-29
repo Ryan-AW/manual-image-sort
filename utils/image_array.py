@@ -38,5 +38,4 @@ class ImageArray:
 
     def _raise_image_not_found(self):
         self._paths = []
-        self._cur_path = Path(__file__).parent/'resources'/'img_not_found.png'
-
+        self._cur_path = Path(__file__).parent.parent/'resources'/'img_not_found.png'
