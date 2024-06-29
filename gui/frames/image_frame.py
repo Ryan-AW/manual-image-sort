@@ -2,33 +2,41 @@
 import tkinter as tk
 from PIL import Image, ImageTk
 from config import ConfigManager
-from utils import ImageInfo
+from utils import ImageArray, ImageInfo
 
 
 CONFIG = ConfigManager()
 INFO = ImageInfo()
+PATHS = ImageArray()
 
 
 class ImageFrame(tk.Frame):
     ''' tkinter frame for displaying an image'''
     _config = CONFIG['image_widget']
+    _instance = None
 
-    def __init__(self, master):
-        super().__init__(master)
-        self.master = master
+    def __new__(cls, master=None):
+        if cls._instance is None:
+            cls._instance = super(ImageFrame, cls).__new__(cls)
+        return cls._instance
 
-        self._width = 800
-        self._height = 600
+    def __init__(self, master=None):
+        if master:
+            super().__init__(master)
+            self.master = master
+
+            self._width = 800
+            self._height = 600
 
 
-        self._image = None
-        self._raw_image = None
+            self._image = None
+            self._raw_image = None
 
-        self._create_widgets()
+            self._create_widgets()
 
-        self.load_image(INFO.path)
+            self.load_image()
 
-        self.bind("<Configure>", self._on_resize)
+            self.bind("<Configure>", self._on_resize)
 
     def _create_widgets(self):
         self.config(bg=self._config['image_frame'])
@@ -37,9 +45,9 @@ class ImageFrame(tk.Frame):
         self._image_label.config(bg=self._config['image_border'])
         self._image_label.pack()
 
-    def load_image(self, file_path):
+    def load_image(self):
         ''' choose the image to display using its file path '''
-        self._raw_image = Image.open(file_path)
+        self._raw_image = Image.open(PATHS.cur_path()).convert("RGBA")
         self._scale_image()
 
     def _scale_image(self):

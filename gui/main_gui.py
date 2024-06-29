@@ -2,8 +2,10 @@
 import tkinter as tk
 from .frames import DirectoriesFrame, InfoFrame, ImageFrame
 from config import ConfigManager
+from utils import ImageArray
 
 CONFIG = ConfigManager()
+PATHS = ImageArray()
 root = None
 
 
@@ -27,6 +29,7 @@ class MainGui(tk.Frame):
         self._directory_selector.grid(row=1, column=0, sticky='nsew')
 
         self._image_frame = ImageFrame(self)
+        PATHS.update(self._image_frame.load_image)
         self._image_frame.grid(row=0, column=1, sticky='nsew')
 
 
@@ -45,7 +48,11 @@ def init_gui():
     root.title("Manual Image Sort")
     app = MainGui(root)
     app.pack(fill=tk.BOTH, expand=True)
+    root.bind('<Return>', next_image)
+    root.bind('<KP_Enter>', next_image)
 
+def next_image(_):
+    PATHS.next()
 
 def mainloop():
     global root
