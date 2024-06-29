@@ -29,6 +29,7 @@ class MainGui(tk.Frame):
         self._directory_selector.grid(row=1, column=0, sticky='nsew')
 
         self._image_frame = ImageFrame(self)
+        PATHS.update(self._image_frame.load_image)
         self._image_frame.grid(row=0, column=1, sticky='nsew')
 
 
