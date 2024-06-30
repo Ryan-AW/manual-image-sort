@@ -134,11 +134,14 @@ class DirectorySelectorFrame(tk.Frame):
         if self._directory_entry.is_selected:
             self._directory_entry.is_selected = False
 
+    def state(self, state: bool):
+        self._directory_entry.is_selected = state
+
 
 class DirectoriesFrame(tk.Frame):
     ''' tkinter frame with multiple directory selectors '''
     _config = CONFIG['directories_frame']
-    _last_selection = [None for _ in range(10)]
+    _last_state = [None for _ in range(10)]
 
     def __init__(self, master):
         super().__init__(master)
@@ -148,7 +151,7 @@ class DirectoriesFrame(tk.Frame):
 
     def _create_widgets(self):
         self.config(background=self._config['background'])
-        self._selectors = [DirectorySelectorFrame(self, str(i)) for i in range(len(self._last_selection))]
+        self._selectors = [DirectorySelectorFrame(self, str(i)) for i in range(len(self._last_state))]
         for selector in self._selectors:
             selector.pack(fill=tk.X, expand=True)
 
@@ -159,10 +162,14 @@ class DirectoriesFrame(tk.Frame):
 
     def clear(self):
         ''' clear all directories' selectors '''
-        temp_selection = [None]*len(self._last_selection)
+        temp_state = [None]*len(self._last_state)
         for i, selector in enumerate(self._selectors):
-            temp_selection[i] = bool(selector)
+            temp_state[i] = bool(selector)
             selector.deselect()
 
-        if True in temp_selection:
-            self._last_selection = temp_selection
+        if True in temp_state:
+            self._last_state = temp_state
+
+    def recall(self):
+        for selector, state in zip(self._selectors, self._last_state):
+            selector.state(state)
