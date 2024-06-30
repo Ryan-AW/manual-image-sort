@@ -130,6 +130,11 @@ class DirectorySelectorFrame(tk.Frame):
             return self._entry_text.get()
         return False
 
+    def deselect(self):
+        ''' deselect the directory '''
+        if self._directory_entry.is_selected:
+            self._directory_entry.is_selected = False
+
 
 class DirectoriesFrame(tk.Frame):
     ''' tkinter frame with multiple directory selectors '''
@@ -151,3 +156,8 @@ class DirectoriesFrame(tk.Frame):
     def directories(self):
         ''' return list of user inputted directories '''
         return [selector.directory for selector in self._selectors]
+
+    def clear(self):
+        ''' clear all directories' selectors '''
+        for selector in self._selectors:
+            selector.deselect()
