@@ -9,6 +9,7 @@ CONFIG = ConfigManager()
 PATHS = ImageArray()
 INFO = ImageInfo()
 root = None
+app = None
 
 
 class MainGui(tk.Frame):
@@ -46,6 +47,7 @@ class MainGui(tk.Frame):
 
 def init_gui():
     global root
+    global app
     root = tk.Tk()
     root.title("Manual Image Sort")
     app = MainGui(root)
@@ -56,6 +58,7 @@ def init_gui():
 def next_image(_):
     PATHS.next()
     INFO.get()
+    app._directory_selector.clear()
 
 def mainloop():
     global root
