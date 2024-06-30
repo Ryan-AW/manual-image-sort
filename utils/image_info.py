@@ -4,6 +4,10 @@ from datetime import datetime
 from hashlib import md5
 import tkinter as tk
 from .info_table import InfoTable
+from .image_array import ImageArray
+
+
+PATHS = ImageArray()
 
 
 class ImageInfo:
@@ -83,23 +87,23 @@ class ImageInfo:
             )
 
 
-    def open(self, image_path):
+    def get(self):
         ''' choose image to laod its info '''
-        self._path = Path(image_path).resolve()
+        self._path = Path(PATHS.cur_path()).resolve()
 
-        self._file_path_info.set_value(0, tk.StringVar(value=self._path.parent))
-        self._file_path_info.set_value(1, tk.StringVar(value=self._path.stem))
-        self._file_path_info.set_value(2, tk.StringVar(value=self._path.suffix[1:]))
+        self._file_path_info.get_value(0).set(self._path.parent)
+        self._file_path_info.get_value(1).set(self._path.stem)
+        self._file_path_info.get_value(2).set(self._path.suffix[1:])
 
         *_, raw_size, last_accessed, last_modified, time_created = self._path.stat()
         si_size, iec_size = self._convert_bytes(raw_size)
 
-        self._file_info.set_value(0, tk.StringVar(value=si_size))
-        self._file_info.set_value(1, tk.StringVar(value=iec_size))
-        self._file_info.set_value(2, tk.StringVar(value=datetime.fromtimestamp(last_accessed)))
-        self._file_info.set_value(3, tk.StringVar(value=datetime.fromtimestamp(last_modified)))
-        self._file_info.set_value(4, tk.StringVar(value=datetime.fromtimestamp(time_created)))
-        self._file_info.set_value(5, tk.StringVar(value=self._md5_checksum(image_path)))
+        self._file_info.get_value(0).set(si_size)
+        self._file_info.get_value(1).set(iec_size)
+        self._file_info.get_value(2).set(datetime.fromtimestamp(last_accessed))
+        self._file_info.get_value(3).set(datetime.fromtimestamp(last_modified))
+        self._file_info.get_value(4).set(datetime.fromtimestamp(time_created))
+        self._file_info.get_value(5).set(self._md5_checksum(self._path))
 
 
     @staticmethod

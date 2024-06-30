@@ -2,10 +2,12 @@
 import tkinter as tk
 from .frames import DirectoriesFrame, InfoFrame, ImageFrame
 from config import ConfigManager
-from utils import ImageArray
+from utils import ImageArray, ImageInfo
+
 
 CONFIG = ConfigManager()
 PATHS = ImageArray()
+INFO = ImageInfo()
 root = None
 
 
@@ -53,6 +55,7 @@ def init_gui():
 
 def next_image(_):
     PATHS.next()
+    INFO.get()
 
 def mainloop():
     global root

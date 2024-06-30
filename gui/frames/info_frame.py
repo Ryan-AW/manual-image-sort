@@ -91,6 +91,7 @@ class SourceDirectorySelector(MutableInfoFrame):
     def _on_edit(self):
         if dir_path := filedialog.askdirectory():
             PATHS.load_directory(dir_path)
+            INFO.get()
             self._info_table.get_value(self._index).set(dir_path)
             ImageFrame().load_image()
 
@@ -169,9 +170,7 @@ class InfoFrame(tk.Frame):
         super().config(background=self._config['background'])
 
         INFO.tk_init()
-
-        # remove this line when image loading logic is implemented
-        INFO.open(Path(__file__).parent.parent.parent/'resources'/'img_not_found.png')
+        INFO.get()
 
         mutable_info = INFO.file_path_table
         immutable_info = INFO.file_table
