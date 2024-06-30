@@ -9,6 +9,7 @@ CONFIG = ConfigManager()
 PATHS = ImageArray()
 INFO = ImageInfo()
 root = None
+app = None
 
 
 class MainGui(tk.Frame):
@@ -46,16 +47,20 @@ class MainGui(tk.Frame):
 
 def init_gui():
     global root
+    global app
     root = tk.Tk()
     root.title("Manual Image Sort")
     app = MainGui(root)
     app.pack(fill=tk.BOTH, expand=True)
     root.bind('<Return>', next_image)
     root.bind('<KP_Enter>', next_image)
+    root.bind('<period>', lambda _ : app._directory_selector.recall())
+    root.bind('<KP_Decimal>', lambda _ : app._directory_selector.recall())
 
 def next_image(_):
     PATHS.next()
     INFO.get()
+    app._directory_selector.clear()
 
 def mainloop():
     global root

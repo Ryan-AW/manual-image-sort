@@ -25,7 +25,7 @@ class DirectoryBox(tk.Entry):
     @property
     def is_selected(self):
         ''' return whether the user has selected this directory '''
-        return self._is_selected
+        return bool(self)
 
     @is_selected.setter
     def is_selected(self, value: bool):
@@ -57,6 +57,9 @@ class DirectoryBox(tk.Entry):
     def keybind(self, key: str):
         ''' bind a key on the keyboard to the toggle function '''
         self.bind_all(f'<KeyPress-{key}>', lambda _:self.toggle())
+
+    def __bool__(self):
+        return self._is_selected
 
 
 class SelectButton(tk.Button):
@@ -90,8 +93,6 @@ class DirectorySelectorFrame(tk.Frame):
         self.master = master
         self._char = char
 
-        self._has_directory = False
-
         self._create_widgets()
 
     def _create_widgets(self):
@@ -121,19 +122,26 @@ class DirectorySelectorFrame(tk.Frame):
             self._directory_entry.config(state='readonly')
 
     def __bool__(self):
-        return self._has_directory
+        return bool(self._directory_entry)
 
     @property
     def directory(self):
-        ''' returns the selected directory or returns False if the user hasn't selected one '''
-        if self._has_directory:
-            return self._entry_text.get()
-        return False
+        ''' returns the directory '''
+        return self._entry_text.get()
+
+    def deselect(self):
+        ''' deselect the directory '''
+        if self._directory_entry.is_selected:
+            self._directory_entry.is_selected = False
+
+    def state(self, state: bool):
+        self._directory_entry.is_selected = state
 
 
 class DirectoriesFrame(tk.Frame):
     ''' tkinter frame with multiple directory selectors '''
     _config = CONFIG['directories_frame']
+    _last_state = [None for _ in range(10)]
 
     def __init__(self, master):
         super().__init__(master)
@@ -143,7 +151,7 @@ class DirectoriesFrame(tk.Frame):
 
     def _create_widgets(self):
         self.config(background=self._config['background'])
-        self._selectors = [DirectorySelectorFrame(self, str(i)) for i in range(10)]
+        self._selectors = [DirectorySelectorFrame(self, str(i)) for i in range(len(self._last_state))]
         for selector in self._selectors:
             selector.pack(fill=tk.X, expand=True)
 
@@ -151,3 +159,17 @@ class DirectoriesFrame(tk.Frame):
     def directories(self):
         ''' return list of user inputted directories '''
         return [selector.directory for selector in self._selectors]
+
+    def clear(self):
+        ''' clear all directories' selectors '''
+        temp_state = [None]*len(self._last_state)
+        for i, selector in enumerate(self._selectors):
+            temp_state[i] = bool(selector)
+            selector.deselect()
+
+        if True in temp_state:
+            self._last_state = temp_state
+
+    def recall(self):
+        for selector, state in zip(self._selectors, self._last_state):
+            selector.state(state)
