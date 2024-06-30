@@ -54,6 +54,8 @@ def init_gui():
     app.pack(fill=tk.BOTH, expand=True)
     root.bind('<Return>', next_image)
     root.bind('<KP_Enter>', next_image)
+    root.bind('<period>', lambda _ : app._directory_selector.recall())
+    root.bind('<KP_Decimal>', lambda _ : app._directory_selector.recall())
 
 def next_image(_):
     PATHS.next()
