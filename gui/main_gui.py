@@ -2,7 +2,7 @@
 import tkinter as tk
 from .frames import DirectoriesFrame, InfoFrame, ImageFrame
 from config import ConfigManager
-from utils import ImageArray, ImageInfo
+from utils import ImageArray, ImageInfo, copy_move
 
 
 CONFIG = ConfigManager()
@@ -58,6 +58,8 @@ def init_gui():
     root.bind('<KP_Decimal>', lambda _ : app._directory_selector.recall())
 
 def next_image(_):
+    copy_move(PATHS.cur_path(), *app._directory_selector)
+
     PATHS.next()
     INFO.get()
     app._directory_selector.clear()
