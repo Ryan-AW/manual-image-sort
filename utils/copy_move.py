@@ -7,5 +7,3 @@ def copy_move(input_file, *output_directories):
         for directory in output_directories[1:]:
             copy2(input_file, directory)
         move(input_file, last_directory)
-    else:
-        raise KeyError('output directories must be specified')
