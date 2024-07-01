@@ -155,7 +155,6 @@ class DirectoriesFrame(tk.Frame):
         for selector in self._selectors:
             selector.pack(fill=tk.X, expand=True)
 
-    @property
     def directories(self):
         ''' return list of user inputted directories '''
         return [selector.directory for selector in self._selectors]
@@ -173,3 +172,8 @@ class DirectoriesFrame(tk.Frame):
     def recall(self):
         for selector, state in zip(self._selectors, self._last_state):
             selector.state(state)
+
+    def __iter__(self):
+        for selector in self._selectors:
+            if selector:
+                yield selector.directory
