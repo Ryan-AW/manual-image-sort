@@ -58,7 +58,7 @@ def init_gui():
     root.bind('<KP_Decimal>', lambda _ : app._directory_selector.recall())
 
 def next_image(_):
-    copy_move(PATHS.cur_path, *app._directory_selector)
+    copy_move(PATHS.cur_path(), *app._directory_selector)
 
     PATHS.next()
     INFO.get()
