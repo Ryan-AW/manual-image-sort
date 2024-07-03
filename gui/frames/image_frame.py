@@ -14,6 +14,7 @@ class ImageFrame(tk.Frame):
     ''' tkinter frame for displaying an image'''
     _config = CONFIG['image_widget']
     _instance = None
+    threshold = 25
 
     def __new__(cls, master=None):
         if cls._instance is None:
@@ -72,7 +73,8 @@ class ImageFrame(tk.Frame):
         self._image_label.config(image=self._image)
 
     def _on_resize(self, event):
-        if abs(event.width - self._width) > 50 or abs(event.height - self._height) > 50:
+        if (abs(event.width - self._width) > self.threshold
+            or abs(event.height - self._height) > self.threshold):
             self._width = event.width-2
             self._height = event.height-2
             self._scale_image()
