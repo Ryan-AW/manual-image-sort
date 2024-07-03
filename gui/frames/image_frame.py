@@ -72,6 +72,7 @@ class ImageFrame(tk.Frame):
         self._image_label.config(image=self._image)
 
     def _on_resize(self, event):
-        self._width = event.width-2
-        self._height = event.height-2
-        self._scale_image()
+        if abs(event.width - self._width) > 50 or abs(event.height - self._height) > 50:
+            self._width = event.width-2
+            self._height = event.height-2
+            self._scale_image()
