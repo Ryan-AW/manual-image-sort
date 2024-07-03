@@ -60,7 +60,7 @@ class ImageFrame(tk.Frame):
             new_width = int(self._height * aspect_ratio)
             new_height = self._height
 
-        self._image = self._raw_image.resize((new_width, new_height), Image.ANTIALIAS)
+        self._image = self._raw_image.resize((new_width, new_height), Image.Resampling.LANCZOS)
 
         background = Image.new('RGBA', (self._width, self._height), self._config['image_border'])
 
