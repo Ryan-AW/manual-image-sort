@@ -11,7 +11,7 @@ class ConfigManager:
 
     DEFAULT_CONFIG = {
         'root': {
-            'background': '#111111',
+            'background': '#333333',
             'sub_frame_background': '#111111'
         },
         'directory_entry': {
@@ -40,7 +40,7 @@ class ConfigManager:
             'background': '#111111'
         },
         'image_widget': {
-            'image_frame': '#111111',
+            'image_frame': '#333333',
             'image_border': '#333333'
         },
         'mutable_info_frame': {
