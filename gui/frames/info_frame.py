@@ -24,7 +24,14 @@ class ToggleButton(tk.Button):
         except KeyError:
             pass
 
-        self.config(image=self._LOCKED, command=self._toggle)
+        self.config(
+            image=self._LOCKED,
+            command=self._toggle,
+            pady=0,
+            relief='flat',
+            borderwidth=3,
+            highlightthickness=0
+        )
         self._state = True
 
     def _toggle(self):
@@ -42,7 +49,13 @@ class DirectoryButton(tk.Button):
         tk.Button.__init__(self, master, **kwargs)
         self._ICON = tk.PhotoImage(file='resources/selector.png')
 
-        self.config(image=self._ICON)
+        self.config(
+            image=self._ICON,
+            pady=0,
+            relief='flat',
+            borderwidth=3,
+            highlightthickness=0
+        )
 
 class MutableInfoFrame(tk.Frame):
     ''' tkinter frame for displaying info that the user can edit '''
