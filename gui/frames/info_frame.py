@@ -12,6 +12,51 @@ INFO = ImageInfo()
 PATHS = ImageArray()
 
 
+class ToggleButton(tk.Button):
+    def __init__(self, master, **kwargs):
+        tk.Button.__init__(self, master, **kwargs)
+        self._LOCKED = tk.PhotoImage(file='resources/locked.png')
+        self._UNLOCKED = tk.PhotoImage(file='resources/unlocked.png')
+
+        self._callback = None
+        try:
+            self._callback = kwargs['command']
+        except KeyError:
+            pass
+
+        self.config(
+            image=self._LOCKED,
+            command=self._toggle,
+            pady=0,
+            relief='flat',
+            borderwidth=3,
+            highlightthickness=0
+        )
+        self._state = True
+
+    def _toggle(self):
+        if self._callback:
+            self._callback()
+
+        if self._state:
+            self.config(image=self._UNLOCKED)
+        else:
+            self.config(image=self._LOCKED)
+        self._state = not self._state
+
+class DirectoryButton(tk.Button):
+    def __init__(self, master, **kwargs):
+        tk.Button.__init__(self, master, **kwargs)
+        self._ICON = tk.PhotoImage(file='resources/selector.png')
+
+        self.config(
+            image=self._ICON,
+            pady=0,
+            relief='flat',
+            borderwidth=3,
+            highlightthickness=0
+        )
+
 class MutableInfoFrame(tk.Frame):
     ''' tkinter frame for displaying info that the user can edit '''
     _config = CONFIG['mutable_info_frame']
@@ -42,7 +87,7 @@ class MutableInfoFrame(tk.Frame):
         self._value_entry = tk.Entry(self, textvariable=self._value, state='readonly')
         self._value_entry.pack(side='left', fill=tk.X, expand=True)
 
-        self._edit_button = tk.Button(self, command=self._on_edit)
+        self._edit_button = ToggleButton(self, command=self._on_edit)
         self._edit_button.pack()
 
     def _on_edit(self):
@@ -87,6 +132,24 @@ class SourceDirectorySelector(MutableInfoFrame):
                 foreground=self._source_config['text'],
                 highlightthickness = 0
             )
+
+    def _create_widgets(self):
+        super().config(background=self._config['background'])
+        self._key_label = tk.Label(
+                self,
+                textvariable=self._key,
+                anchor='e',
+                width=self._info_table.max_key_len,
+                background=self._config['label_background'],
+                foreground=self._config['label_text']
+            )
+        self._key_label.pack(side='left')
+
+        self._value_entry = tk.Entry(self, textvariable=self._value, state='readonly')
+        self._value_entry.pack(side='left', fill=tk.X, expand=True)
+
+        self._edit_button = DirectoryButton(self, command=self._on_edit)
+        self._edit_button.pack()
 
     def _on_edit(self):
         if dir_path := filedialog.askdirectory():
