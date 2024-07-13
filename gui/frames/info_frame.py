@@ -18,7 +18,7 @@ class ToggleButton(tk.Button):
         self._LOCKED = tk.PhotoImage(file='resources/locked.png')
         self._UNLOCKED = tk.PhotoImage(file='resources/unlocked.png')
         self.config(image=self._LOCKED, command=self._toggle)
-        self._state = False
+        self._state = True
 
     def _toggle(self):
         if self._state:
