@@ -120,6 +120,24 @@ class SourceDirectorySelector(MutableInfoFrame):
                 highlightthickness = 0
             )
 
+    def _create_widgets(self):
+        super().config(background=self._config['background'])
+        self._key_label = tk.Label(
+                self,
+                textvariable=self._key,
+                anchor='e',
+                width=self._info_table.max_key_len,
+                background=self._config['label_background'],
+                foreground=self._config['label_text']
+            )
+        self._key_label.pack(side='left')
+
+        self._value_entry = tk.Entry(self, textvariable=self._value, state='readonly')
+        self._value_entry.pack(side='left', fill=tk.X, expand=True)
+
+        self._edit_button = DirectoryButton(self, command=self._on_edit)
+        self._edit_button.pack()
+
     def _on_edit(self):
         if dir_path := filedialog.askdirectory():
             PATHS.load_directory(dir_path)
