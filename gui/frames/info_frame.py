@@ -37,6 +37,13 @@ class ToggleButton(tk.Button):
             self.config(image=self._LOCKED)
         self._state = not self._state
 
+class DirectoryButton(tk.Button):
+    def __init__(self, master, **kwargs):
+        tk.Button.__init__(self, master, **kwargs)
+        self._ICON = tk.PhotoImage(file='resources/selector.png')
+
+        self.config(image=self._ICON)
+
 class MutableInfoFrame(tk.Frame):
     ''' tkinter frame for displaying info that the user can edit '''
     _config = CONFIG['mutable_info_frame']
